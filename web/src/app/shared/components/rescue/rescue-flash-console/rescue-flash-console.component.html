@@ -17,7 +17,7 @@
       </p>
       <div class="flex items-center gap-2">
         <app-ui-action-button
-          label="Cancel"
+          [label]="'CONSOLE.CANCEL' | translate"
           [isDark]="isDark()"
           variant="danger"
           appearance="outline"
@@ -25,14 +25,14 @@
           (clicked)="requestCancelCurrentAction()"
         />
         <app-ui-action-button
-          label="Copy"
+          [label]="'CONSOLE.COPY' | translate"
           [isDark]="isDark()"
           variant="neutral"
           appearance="outline"
           (clicked)="copyConsoleToClipboard()"
         />
         <app-ui-action-button
-          label="Clear"
+          [label]="'CONSOLE.CLEAR' | translate"
           [isDark]="isDark()"
           variant="neutral"
           appearance="outline"

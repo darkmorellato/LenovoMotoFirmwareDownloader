@@ -16,7 +16,7 @@
         [class.text-dark-text-bright]="isDark()"
         [class.text-light-text-bright]="!isDark()"
       >
-        {{ title() }}
+        {{ dryRun() ? ('RESCUE.DRY_RUN_TITLE' | translate) : ('RESCUE.TITLE' | translate) }}
       </h4>
 
       <p class="mt-2 text-sm" [class.text-dark-text]="isDark()" [class.text-light-text]="!isDark()">
@@ -33,13 +33,13 @@
         </p>
       }
 
-      <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-accent">Flash transport</p>
+      <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-accent">{{ 'RESCUE.TRANSPORT' | translate }}</p>
       <p
         class="mt-1 text-xs"
         [class.text-dark-text-dim]="isDark()"
         [class.text-light-text-dim]="!isDark()"
       >
-        Choose command backend for Rescue Lite execution.
+        {{ 'RESCUE.TRANSPORT_DESC' | translate }}
       </p>
 
       <div class="mt-3 flex flex-wrap gap-2">
@@ -50,7 +50,13 @@
           (clicked)="onSelectFlashTransport('fastboot')"
         />
         <app-ui-action-button
-          label="QDL"
+          label="MediaTek"
+          [isDark]="isDark()"
+          [active]="flashTransport() === 'mediatek'"
+          (clicked)="onSelectFlashTransport('mediatek')"
+        />
+        <app-ui-action-button
+          label="QDL (Qualcomm)"
           [isDark]="isDark()"
           [active]="flashTransport() === 'qdl'"
           (clicked)="onSelectFlashTransport('qdl')"
@@ -61,36 +67,30 @@
           [active]="flashTransport() === 'unisoc'"
           (clicked)="onSelectFlashTransport('unisoc')"
         />
-        <app-ui-action-button
-          label="MediaTek"
-          [isDark]="isDark()"
-          [active]="false"
-          [disabled]="true"
-        />
       </div>
 
-      <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-accent">Data reset</p>
+      <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-accent">{{ 'RESCUE.DATA_RESET' | translate }}</p>
       <p
         class="mt-1 text-xs"
         [class.text-dark-text-dim]="isDark()"
         [class.text-light-text-dim]="!isDark()"
       >
         @if (dryRun()) {
-          Choose whether wipe commands should be included in the dry-run command plan.
+          {{ 'RESCUE.DATA_RESET_DESC_DRY' | translate }}
         } @else {
-          Choose whether user data should be wiped during rescue.
+          {{ 'RESCUE.DATA_RESET_DESC_LIVE' | translate }}
         }
       </p>
 
       <div class="mt-3 flex flex-wrap gap-2">
         <app-ui-action-button
-          label="Yes"
+          [label]="'RESCUE.YES' | translate"
           [isDark]="isDark()"
           [active]="dataReset() === 'yes'"
           (clicked)="onSelectDataReset('yes')"
         />
         <app-ui-action-button
-          label="No"
+          [label]="'RESCUE.NO' | translate"
           [isDark]="isDark()"
           [active]="dataReset() === 'no'"
           (clicked)="onSelectDataReset('no')"
@@ -99,7 +99,7 @@
 
       @if (flashTransport() === 'qdl') {
         <div class="mt-4 space-y-3">
-          <p class="text-xs font-semibold uppercase tracking-wide text-accent">QDL storage</p>
+          <p class="text-xs font-semibold uppercase tracking-wide text-accent">{{ 'RESCUE.STORAGE' | translate }}</p>
 
           <div class="flex flex-wrap gap-2">
             <app-ui-action-button
@@ -127,7 +127,7 @@
             [class.text-dark-text-dim]="isDark()"
             [class.text-light-text-dim]="!isDark()"
           >
-            Board serial
+            {{ 'RESCUE.BOARD_SERIAL' | translate }}
           </label>
           <input
             class="w-full rounded-lg border px-3 py-2 font-mono text-sm transition-colors duration-200"
@@ -138,7 +138,7 @@
             [class.bg-light-surface]="!isDark()"
             [class.text-light-text]="!isDark()"
             type="text"
-            placeholder="Optional"
+            [placeholder]="'RESCUE.OPTIONAL' | translate"
             [value]="qdlSerial()"
             (input)="onQdlSerialInput($event)"
           />
@@ -146,18 +146,18 @@
           @if (showWindowsDriverInstall()) {
             <app-rescue-driver-install-card
               [isDark]="isDark()"
-              title="Qualcomm driver"
-              description="Install QDLoader HS-USB 9008 driver before using QDL rescue. (Might require reboot)"
+              [title]="'DRIVER.QUALCOMM_TITLE' | translate"
+              [description]="'DRIVER.QUALCOMM_DESC' | translate"
               [buttonLabel]="
                 qdloaderDriverInstallBusy()
-                  ? 'Installing driver...'
+                  ? ('DRIVER.INSTALLING' | translate)
                   : qdloaderDriverInstalled()
-                    ? 'Driver already installed'
-                    : 'Install QDLoader Driver'
+                    ? ('DRIVER.INSTALLED' | translate)
+                    : ('DRIVER.INSTALL_BTN' | translate)
               "
               [buttonDisabled]="qdloaderDriverInstallBusy() || qdloaderDriverInstalled()"
               [installed]="qdloaderDriverInstalled()"
-              installedNote="QDLoader driver package detected as installed."
+              [installedNote]="'DRIVER.INSTALLED' | translate"
               (install)="onInstallWindowsQdloaderDriver()"
             />
           }
@@ -168,18 +168,18 @@
         <div class="mt-4 space-y-3">
           <app-rescue-driver-install-card
             [isDark]="isDark()"
-            title="Unisoc driver"
-            description="Install SPD USB driver before using Unisoc PAC rescue. (Might require reboot)"
+            [title]="'DRIVER.UNISOC_TITLE' | translate"
+            [description]="'DRIVER.UNISOC_DESC' | translate"
             [buttonLabel]="
               spdDriverInstallBusy()
-                ? 'Installing driver...'
+                ? ('DRIVER.INSTALLING' | translate)
                 : spdDriverInstalled()
-                  ? 'Driver installed in this session'
-                  : 'Install SPD Driver'
+                  ? ('DRIVER.INSTALLED' | translate)
+                  : ('DRIVER.INSTALL_BTN' | translate)
             "
             [buttonDisabled]="spdDriverInstallBusy() || spdDriverInstalled()"
             [installed]="spdDriverInstalled()"
-            installedNote="SPD driver installed in this session."
+            [installedNote]="'DRIVER.INSTALLED' | translate"
             (install)="onInstallWindowsSpdDriver()"
           />
         </div>
@@ -189,18 +189,18 @@
         <div class="mt-4 space-y-3">
           <app-rescue-driver-install-card
             [isDark]="isDark()"
-            title="MediaTek driver"
-            description="Install MediaTek USB driver before using MediaTek rescue. (Might require reboot)"
+            [title]="'DRIVER.MEDIATEK_TITLE' | translate"
+            [description]="'DRIVER.MEDIATEK_DESC' | translate"
             [buttonLabel]="
               mtkDriverInstallBusy()
-                ? 'Installing driver...'
+                ? ('DRIVER.INSTALLING' | translate)
                 : mtkDriverInstalled()
-                  ? 'Driver installed in this session'
-                  : 'Install MediaTek Driver'
+                  ? ('DRIVER.INSTALLED' | translate)
+                  : ('DRIVER.INSTALL_BTN' | translate)
             "
             [buttonDisabled]="mtkDriverInstallBusy() || mtkDriverInstalled()"
             [installed]="mtkDriverInstalled()"
-            installedNote="MediaTek driver installed in this session."
+            [installedNote]="'DRIVER.INSTALLED' | translate"
             (install)="onInstallWindowsMtkDriver()"
           />
         </div>
@@ -208,12 +208,12 @@
 
       <div class="mt-5 flex items-center justify-end gap-2">
         <app-rescue-dialog-button
-          label="Cancel"
+          [label]="'RESCUE.CANCEL' | translate"
           [isDark]="isDark()"
           variant="secondary"
           (clicked)="onBackdropClick()"
         />
-        <app-rescue-dialog-button label="Continue" variant="primary" (clicked)="onConfirm()" />
+        <app-rescue-dialog-button [label]="'RESCUE.CONTINUE' | translate" variant="primary" (clicked)="onConfirm()" />
       </div>
     </div>
   </div>

@@ -13,7 +13,7 @@
         [class.text-dark-text-bright]="store.isDark()"
         [class.text-light-text-bright]="!store.isDark()"
       >
-        Downloads
+        {{ 'DOWNLOADS.TITLE' | translate }}
       </h3>
     </div>
 
@@ -53,7 +53,7 @@
   </p>
 
   <app-rescue-flash-console
-    [title]="'Rescue Console'"
+    [title]="'CONSOLE.TITLE' | translate"
     [context]="'firmware'"
     [isDark]="store.isDark()"
     [download]="store.firmwareDownload()"

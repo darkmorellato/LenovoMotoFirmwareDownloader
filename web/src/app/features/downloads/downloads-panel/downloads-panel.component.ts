@@ -1,5 +1,6 @@
 import type { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import type {
   LocalDownloadedFile,
   RescueFlashTransport,
@@ -29,6 +30,7 @@ import { LocalDownloadedFileCardComponent } from './components/local-downloaded-
     RescueFlashConsoleComponent,
     RescueOptionsDialogComponent,
     UiActionButtonComponent,
+    TranslatePipe,
   ],
   templateUrl: './downloads-panel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

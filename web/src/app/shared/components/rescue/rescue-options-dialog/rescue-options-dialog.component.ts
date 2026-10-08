@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { TranslatePipe } from '../../../../core/i18n/translate.pipe';
 import type { RescueFlashTransport, RescueQdlStorage } from '../../../../core/models/desktop-api';
 import type { DataResetChoice } from '../../../../shared/state/workflow.types';
 import { UiActionButtonComponent } from '../../ui/ui-action-button/ui-action-button.component';
@@ -8,7 +9,12 @@ import { RescueDriverInstallCardComponent } from '../rescue-driver-install-card/
 @Component({
   selector: 'app-rescue-options-dialog',
   standalone: true,
-  imports: [RescueDialogButtonComponent, RescueDriverInstallCardComponent, UiActionButtonComponent],
+  imports: [
+    RescueDialogButtonComponent,
+    RescueDriverInstallCardComponent,
+    UiActionButtonComponent,
+    TranslatePipe,
+  ],
   templateUrl: './rescue-options-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
