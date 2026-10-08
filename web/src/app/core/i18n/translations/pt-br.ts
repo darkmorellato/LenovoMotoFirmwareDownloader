@@ -160,4 +160,49 @@ export const ptBR: Record<string, string> = {
   'COMMON.SAVE': 'Salvar',
   'COMMON.CONFIRM': 'Confirmar',
   'COMMON.SELECT_MODULE': 'Selecione um módulo no menu lateral para começar',
+
+  // Gerenciamento de Armazenamento
+  'STORAGE.TITLE': 'Gerenciamento de Disco e ROMs',
+  'STORAGE.FREE_SPACE': 'Espaço livre em disco',
+  'STORAGE.PACKAGES': 'Pacotes Baixados',
+  'STORAGE.EXTRACTED': 'ROMs Extraídas',
+  'STORAGE.CLEAN_BTN': 'Limpar Arquivos Extraídos',
+  'STORAGE.CLEAN_SUCCESS': 'Limpeza concluída! Liberados %s de espaço em disco.',
+  'STORAGE.CLEAN_EMPTY': 'Nenhuma pasta extraída temporária para limpar.',
+
+  // Verificação Prévia (Pre-flight)
+  'PREFLIGHT.TITLE': 'Verificação Prévia do Dispositivo',
+  'PREFLIGHT.BATTERY': 'Bateria',
+  'PREFLIGHT.BATTERY_OK': 'Carga Adequada',
+  'PREFLIGHT.BATTERY_LOW': 'Bateria Baixa (< 30%)',
+  'PREFLIGHT.BATTERY_WARN':
+    'Atenção: A bateria está com carga baixa. Conecte o carregador antes de regravar o sistema.',
+  'PREFLIGHT.CONNECTED_DEVICE': 'Dispositivo Fastboot',
+  'PREFLIGHT.NOT_CONNECTED': 'Nenhum celular detectado em modo Fastboot via USB.',
+  'PREFLIGHT.CHECK_BTN': 'Verificar Saúde do Aparelho',
+
+  // Permissões USB Linux (Udev)
+  'UDEV.TITLE': 'Permissões USB no Linux (Regras Udev)',
+  'UDEV.DESC':
+    'Configure as permissões do sistema para que Fastboot, ADB e chips MediaTek/Qualcomm funcionem diretamente sem root.',
+  'UDEV.STATUS_INSTALLED': 'Regras Udev instaladas e ativas',
+  'UDEV.STATUS_MISSING': 'Regras Udev não configuradas',
+  'UDEV.INSTALL_BTN': 'Configurar Permissões USB no Linux',
+  'UDEV.INSTALL_SUCCESS': 'Regras instaladas com sucesso! Permissões USB ativadas.',
+
+  // Relatório de Atendimento / Comprovante
+  'REPORT.BTN': 'Gerar Comprovante de Serviço',
+  'REPORT.TITLE': 'Comprovante de Atendimento Técnico',
+  'REPORT.SUBTITLE': 'Relatório Oficial de Manutenção e Atualização de Software',
+  'REPORT.PRINT': 'Imprimir / Salvar PDF',
+  'REPORT.COPY': 'Copiar Dados',
+  'REPORT.COPIED': 'Dados do relatório copiados com sucesso!',
+  'REPORT.DATE': 'Data da Execução',
+  'REPORT.DEVICE': 'Modelo do Celular',
+  'REPORT.SERIAL': 'Número de Série (SN)',
+  'REPORT.FIRMWARE': 'Versão de Firmware Instalada',
+  'REPORT.OUTCOME': 'Status da Instalação',
+  'REPORT.STATUS_SUCCESS': 'Instalação / Atualização Concluída com Êxito',
+  'REPORT.DATA_PRESERVED': 'Dados do Usuário Preservados',
+  'REPORT.DATA_WIPED': 'Restauração de Fábrica Realizada',
 };

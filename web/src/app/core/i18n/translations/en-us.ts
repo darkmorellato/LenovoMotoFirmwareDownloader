@@ -156,4 +156,49 @@ export const enUS: Record<string, string> = {
   'COMMON.SAVE': 'Save',
   'COMMON.CONFIRM': 'Confirm',
   'COMMON.SELECT_MODULE': 'Select a source module to begin',
+
+  // Storage Management
+  'STORAGE.TITLE': 'Disk & ROM Storage Management',
+  'STORAGE.FREE_SPACE': 'Available disk space',
+  'STORAGE.PACKAGES': 'Downloaded Packages',
+  'STORAGE.EXTRACTED': 'Extracted ROMs',
+  'STORAGE.CLEAN_BTN': 'Clean Extracted Files',
+  'STORAGE.CLEAN_SUCCESS': 'Cleanup complete! Freed %s of disk space.',
+  'STORAGE.CLEAN_EMPTY': 'No temporary extracted folders to clean.',
+
+  // Pre-flight Device Checks
+  'PREFLIGHT.TITLE': 'Pre-flight Device Check',
+  'PREFLIGHT.BATTERY': 'Battery',
+  'PREFLIGHT.BATTERY_OK': 'Battery Level OK',
+  'PREFLIGHT.BATTERY_LOW': 'Low Battery (< 30%)',
+  'PREFLIGHT.BATTERY_WARN':
+    'Warning: Battery level is low. Connect charger before flashing to prevent device interruption.',
+  'PREFLIGHT.CONNECTED_DEVICE': 'Fastboot Device',
+  'PREFLIGHT.NOT_CONNECTED': 'No Fastboot device detected over USB.',
+  'PREFLIGHT.CHECK_BTN': 'Check Device Health',
+
+  // Linux Udev Permissions
+  'UDEV.TITLE': 'Linux USB Permissions (Udev Rules)',
+  'UDEV.DESC':
+    'Configure system udev permissions so Fastboot, ADB, and MediaTek/Qualcomm chips work directly without root permissions.',
+  'UDEV.STATUS_INSTALLED': 'Udev rules installed and active',
+  'UDEV.STATUS_MISSING': 'Udev rules not configured',
+  'UDEV.INSTALL_BTN': 'Configure Linux USB Permissions',
+  'UDEV.INSTALL_SUCCESS': 'Udev rules successfully installed! USB permissions enabled.',
+
+  // Service Report
+  'REPORT.BTN': 'Generate Service Report',
+  'REPORT.TITLE': 'Technical Service Receipt',
+  'REPORT.SUBTITLE': 'Official Software Maintenance & Flash Report',
+  'REPORT.PRINT': 'Print / Save as PDF',
+  'REPORT.COPY': 'Copy Report Text',
+  'REPORT.COPIED': 'Report copied to clipboard!',
+  'REPORT.DATE': 'Execution Date',
+  'REPORT.DEVICE': 'Device Model',
+  'REPORT.SERIAL': 'Serial Number (SN)',
+  'REPORT.FIRMWARE': 'Installed Firmware Version',
+  'REPORT.OUTCOME': 'Flash Outcome',
+  'REPORT.STATUS_SUCCESS': 'Flash & Upgrade Successfully Completed',
+  'REPORT.DATA_PRESERVED': 'User Data Preserved',
+  'REPORT.DATA_WIPED': 'Factory Reset Performed',
 };

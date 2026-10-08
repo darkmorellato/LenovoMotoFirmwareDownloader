@@ -38,6 +38,15 @@
           appearance="outline"
           (clicked)="clearConsole()"
         />
+        @if (currentReportData()) {
+          <app-ui-action-button
+            [label]="'REPORT.BTN' | translate"
+            [isDark]="isDark()"
+            variant="primary"
+            appearance="outline"
+            (clicked)="openReportModal()"
+          />
+        }
       </div>
     </div>
     <div
@@ -49,4 +58,11 @@
       <ng-terminal #flashTerminal [xtermOptions]="terminalOptions()" />
     </div>
   </section>
+
+  <app-service-report-modal
+    [isOpen]="showReportModal()"
+    [isDark]="isDark()"
+    [report]="currentReportData()"
+    (close)="closeReportModal()"
+  />
 }

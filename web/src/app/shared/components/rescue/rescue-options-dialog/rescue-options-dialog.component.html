@@ -69,6 +69,109 @@
         />
       </div>
 
+      @if (flashTransport() === 'fastboot') {
+        <div
+          class="mt-4 rounded-xl border p-3.5 transition-colors"
+          [class.border-dark-border]="isDark()"
+          [class.bg-dark-elevated]="isDark()"
+          [class.border-light-border]="!isDark()"
+          [class.bg-light-surface]="!isDark()"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wide text-accent">
+              {{ 'PREFLIGHT.TITLE' | translate }}
+            </span>
+            <button
+              type="button"
+              class="flex cursor-pointer items-center gap-1 text-xs text-accent hover:underline disabled:opacity-50"
+              [disabled]="probingHealth()"
+              (click)="checkDeviceHealth()"
+            >
+              <span>{{ probingHealth() ? '⏳' : '🔄' }}</span>
+              <span>{{ 'PREFLIGHT.CHECK_BTN' | translate }}</span>
+            </button>
+          </div>
+
+          @if (deviceHealth(); as health) {
+            @if (health.connected) {
+              <div class="mt-2.5 grid grid-cols-2 gap-2 text-xs">
+                <div
+                  class="rounded-lg border p-2"
+                  [class.border-dark-border]="isDark()"
+                  [class.bg-dark-surface]="isDark()"
+                  [class.border-light-border]="!isDark()"
+                  [class.bg-light-elevated]="!isDark()"
+                >
+                  <span class="block text-[11px] font-medium opacity-75">
+                    {{ 'PREFLIGHT.CONNECTED_DEVICE' | translate }}
+                  </span>
+                  <span
+                    class="font-mono font-semibold"
+                    [class.text-dark-text-bright]="isDark()"
+                    [class.text-light-text-bright]="!isDark()"
+                  >
+                    {{ health.product || health.serialNumber || 'Fastboot' }}
+                  </span>
+                  @if (health.serialNumber && health.product) {
+                    <span class="block truncate font-mono text-[10px] opacity-60">{{ health.serialNumber }}</span>
+                  }
+                </div>
+
+                <div
+                  class="rounded-lg border p-2"
+                  [class.border-dark-border]="isDark()"
+                  [class.bg-dark-surface]="isDark()"
+                  [class.border-light-border]="!isDark()"
+                  [class.bg-light-elevated]="!isDark()"
+                >
+                  <span class="block text-[11px] font-medium opacity-75">
+                    {{ 'PREFLIGHT.BATTERY' | translate }}
+                  </span>
+                  <div class="flex items-center gap-1.5 font-semibold">
+                    @if (health.batteryLevel !== undefined) {
+                      <span
+                        [class.text-success]="health.batteryStatus === 'ok'"
+                        [class.text-warning]="health.batteryStatus === 'low'"
+                      >
+                        {{ health.batteryLevel }}%
+                      </span>
+                      @if (health.batteryStatus === 'ok') {
+                        <span class="font-normal text-[10px] text-success">
+                          ({{ 'PREFLIGHT.BATTERY_OK' | translate }})
+                        </span>
+                      } @else if (health.batteryStatus === 'low') {
+                        <span class="font-normal text-[10px] text-warning">
+                          ({{ 'PREFLIGHT.BATTERY_LOW' | translate }})
+                        </span>
+                      }
+                    } @else if (health.batteryVoltage) {
+                      <span class="text-success">{{ health.batteryVoltage }}</span>
+                    } @else {
+                      <span class="opacity-60">N/A</span>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              @if (health.batteryStatus === 'low') {
+                <div class="mt-2.5 flex items-start gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 p-2.5 text-xs text-amber-400">
+                  <span>⚠️</span>
+                  <span>{{ 'PREFLIGHT.BATTERY_WARN' | translate }}</span>
+                </div>
+              }
+            } @else {
+              <p
+                class="mt-2 text-xs"
+                [class.text-dark-text-dim]="isDark()"
+                [class.text-light-text-dim]="!isDark()"
+              >
+                ℹ️ {{ 'PREFLIGHT.NOT_CONNECTED' | translate }}
+              </p>
+            }
+          }
+        </div>
+      }
+
       <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-accent">{{ 'RESCUE.DATA_RESET' | translate }}</p>
       <p
         class="mt-1 text-xs"
