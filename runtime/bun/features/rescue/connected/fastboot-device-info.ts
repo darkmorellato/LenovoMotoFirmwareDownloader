@@ -61,3 +61,54 @@ export async function readFastbootDeviceInfo(): Promise<DeviceInfo | null> {
     await client?.close().catch(() => {});
   }
 }
+
+/** Sends `fastboot reboot` to whatever Fastboot device is attached. Never throws. */
+export async function rebootFastbootDeviceToSystem() {
+  let client: FastbootClient | null = null;
+  try {
+    const devices = await listFastbootDevices();
+    const target = devices?.[0];
+    if (!target) {
+      return false;
+    }
+    client = await FastbootClient.connect({
+      serial: target.serialNumber || undefined,
+      confirmPrivilegedFix: async () => true,
+    });
+    await client.reboot();
+    return true;
+  } catch {
+    return false;
+  } finally {
+    await client?.close().catch(() => {});
+  }
+}
+
+/**
+ * Some devices (e.g. Android 13+ phones) do not expose the IMEI to the ADB shell but
+ * do over Fastboot. Reboots the connected device into the bootloader, reads the info
+ * and boots it back to Android. Returns null (leaving the phone booted) on any failure.
+ */
+export async function readDeviceInfoViaBootloader(
+  rebootToBootloader: () => Promise<{ ok: boolean }>,
+  options: { timeoutMs?: number } = {},
+): Promise<DeviceInfo | null> {
+  const deadline = Date.now() + (options.timeoutMs ?? 45_000);
+  const reboot = await rebootToBootloader();
+  if (!reboot.ok) {
+    return null;
+  }
+
+  let info: DeviceInfo | null = null;
+  while (Date.now() < deadline) {
+    await Bun.sleep(1_000);
+    const devices = await listFastbootDevices().catch(() => []);
+    if (devices.length > 0) {
+      info = await readFastbootDeviceInfo();
+      break;
+    }
+  }
+
+  await rebootFastbootDeviceToSystem();
+  return info;
+}
