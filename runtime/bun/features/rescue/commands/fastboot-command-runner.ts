@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import { FastbootClient } from 'fastboot-bun-ts/fastboot';
 import { waitForFastbootDevice, waitForFastbootDeviceRemoval } from 'fastboot-bun-ts/usb';
+import { splitImageForDownload } from './fastboot-sparse.ts';
 import {
   resolveFastbootReconnectTimeoutMs,
   resolveFastbootSerial,
@@ -179,9 +180,21 @@ export async function runFastbootCommand(
       if (!partition || !filePath) {
         throw new Error(`Malformed fastboot flash command: ${command.label}`);
       }
-      await withAbortableFastbootCall(context, (client) =>
-        client.flashFile(partition, resolve(context.workDir, filePath)),
-      );
+      const resolvedPath = resolve(context.workDir, filePath);
+      await withAbortableFastbootCall(context, async (client) => {
+        const maxDownloadSize = await client.getMaxDownloadSize();
+        const fileSize = Bun.file(resolvedPath).size;
+        if (maxDownloadSize === null || fileSize <= maxDownloadSize) {
+          await client.flashFile(partition, resolvedPath);
+          return;
+        }
+        // Larger than the device accepts in one download: resplit into sparse pieces,
+        // like the official fastboot does.
+        for await (const piece of splitImageForDownload(resolvedPath, maxDownloadSize)) {
+          await client.downloadBytes(piece);
+          await client.flash(partition);
+        }
+      });
       return;
     }
 
