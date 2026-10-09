@@ -15,25 +15,27 @@ export type LinuxUdevInstallResult = {
   message: string;
 };
 
-const UDEV_RULES_CONTENT = `# 51-motorola-android.rules
+export const UDEV_RULES_CONTENT = `# 51-motorola-android.rules
 # Udev rules for Motorola, Lenovo, MediaTek, Qualcomm, and Unisoc flash tools
+# ID_MM_DEVICE_IGNORE keeps ModemManager (enabled by default on Ubuntu/Zorin) from
+# grabbing these devices' serial ports while flashing.
 
 # Motorola PCS (Fastboot, ADB, Flash mode)
-SUBSYSTEM=="usb", ATTR{idVendor}=="22b8", MODE="0666", GROUP="plugdev", TAG+="uaccess"
+SUBSYSTEM=="usb", ATTR{idVendor}=="22b8", MODE="0666", GROUP="plugdev", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
 # Lenovo
-SUBSYSTEM=="usb", ATTR{idVendor}=="17ef", MODE="0666", GROUP="plugdev", TAG+="uaccess"
+SUBSYSTEM=="usb", ATTR{idVendor}=="17ef", MODE="0666", GROUP="plugdev", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
 
 # MediaTek (Preloader, BootROM, Fastboot)
-SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0666", GROUP="plugdev", TAG+="uaccess"
+SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0666", GROUP="plugdev", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
 
 # Qualcomm (EDL 9008 emergency download mode, Fastboot)
-SUBSYSTEM=="usb", ATTR{idVendor}=="05c6", MODE="0666", GROUP="plugdev", TAG+="uaccess"
+SUBSYSTEM=="usb", ATTR{idVendor}=="05c6", MODE="0666", GROUP="plugdev", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
 
 # Unisoc / Spreadtrum (PAC / SPD download mode)
-SUBSYSTEM=="usb", ATTR{idVendor}=="1782", MODE="0666", GROUP="plugdev", TAG+="uaccess"
+SUBSYSTEM=="usb", ATTR{idVendor}=="1782", MODE="0666", GROUP="plugdev", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
 
 # Google (Generic Fastboot, Fastbootd)
-SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", MODE="0666", GROUP="plugdev", TAG+="uaccess"
+SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", MODE="0666", GROUP="plugdev", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
 `;
 
 const TARGET_RULES_PATH = '/etc/udev/rules.d/51-motorola-android.rules';
@@ -65,7 +67,9 @@ export async function checkLinuxUdevRules(): Promise<LinuxUdevStatus> {
   if (installed && filePath) {
     try {
       const content = await readFile(filePath, 'utf-8');
-      hasRules = content.includes('22b8') || content.includes('0e8d') || content.includes('05c6');
+      hasRules =
+        (content.includes('22b8') || content.includes('0e8d') || content.includes('05c6')) &&
+        content.includes('ID_MM_DEVICE_IGNORE');
     } catch {
       // Ignore read errors
     }

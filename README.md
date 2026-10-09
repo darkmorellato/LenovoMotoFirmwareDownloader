@@ -31,6 +31,31 @@ All data is stored locally on your machine - nothing is sent to any third-party 
 
 ---
 
+## Instalação via código-fonte no Linux (Ubuntu, Zorin, Debian, Arch)
+
+Funciona em distribuições baseadas em Debian/Ubuntu (Ubuntu, Zorin OS, Linux Mint) e em Arch.
+
+```bash
+git clone https://github.com/darkmorellato/LenovoMotoFirmwareDownloader.git
+cd LenovoMotoFirmwareDownloader
+./install-linux-deps.sh        # instala dependências de sistema (pede sudo); --yes instala o Bun sem perguntar
+bun install --frozen-lockfile
+(cd web && bun install --frozen-lockfile)
+bun run start
+```
+
+- O script detecta `apt` ou `pacman`, instala ferramentas de build, libusb, polkit (`pkexec`),
+  `podman` (se nem `podman` nem `docker` existirem — usado para compilar o addon USB) e as
+  bibliotecas do navegador embutido (CEF/GTK). Pacotes com nomes diferentes entre versões
+  (ex.: `libasound2` / `libasound2t64`) são resolvidos automaticamente.
+- **Permissões USB:** use o botão de regras udev do app uma vez (pede senha via `pkexec`) e
+  reconecte o aparelho. As regras também dizem ao **ModemManager** (ativo por padrão no
+  Ubuntu/Zorin) para ignorar os aparelhos, evitando que ele ocupe as portas durante o flash.
+  Instalações antigas das regras serão detectadas como desatualizadas e podem ser reinstaladas.
+- Com o aparelho em modo Fastboot, "Consultar Atualização" lê IMEI/serial via Fastboot (sem ADB).
+
+---
+
 ## Atualização (instalações via código-fonte) / Updating (source installs)
 
 Máquinas que **já clonaram o repositório** podem se atualizar de três formas — nenhuma delas sobrescreve trabalho local sem aviso:
