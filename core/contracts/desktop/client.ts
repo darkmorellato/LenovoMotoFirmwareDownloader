@@ -181,5 +181,15 @@ export function createDesktopApiFromInvoker(invokeRpc: DesktopRpcInvoker): Deskt
       invokeRpc('pauseDownload', payload) as ReturnType<DesktopApi['pauseDownload']>,
     resumeDownload: (payload) =>
       invokeRpc('resumeDownload', payload) as ReturnType<DesktopApi['resumeDownload']>,
+    checkProjectUpdate: () =>
+      invokeRpc('checkProjectUpdate') as ReturnType<DesktopApi['checkProjectUpdate']>,
+    startProjectUpdate: (payload) =>
+      invokeRpc('startProjectUpdate', payload ?? {}) as ReturnType<
+        DesktopApi['startProjectUpdate']
+      >,
+    cancelProjectUpdate: () =>
+      invokeRpc('cancelProjectUpdate') as ReturnType<DesktopApi['cancelProjectUpdate']>,
+    getProjectUpdateLog: () =>
+      invokeRpc('getProjectUpdateLog') as ReturnType<DesktopApi['getProjectUpdateLog']>,
   };
 }

@@ -205,4 +205,54 @@ export const ptBR: Record<string, string> = {
   'REPORT.STATUS_SUCCESS': 'Instalação / Atualização Concluída com Êxito',
   'REPORT.DATA_PRESERVED': 'Dados do Usuário Preservados',
   'REPORT.DATA_WIPED': 'Restauração de Fábrica Realizada',
+
+  // Atualização do Projeto
+  'UPDATE.TITLE': 'Atualizar Projeto',
+  'UPDATE.BUTTON': 'Atualizar',
+  'UPDATE.AVAILABLE_BADGE': 'Atualizações disponíveis',
+  'UPDATE.MODE_SOURCE': 'Instalação via código-fonte (git)',
+  'UPDATE.MODE_PACKAGED': 'Aplicativo instalado',
+  'UPDATE.CLOSE': 'Fechar',
+  'UPDATE.CHECKING': 'Verificando atualizações...',
+  'UPDATE.CREDENTIALS_OK': 'Credenciais OK',
+  'UPDATE.CREDENTIALS_AUTH_FAILED': 'Acesso negado',
+  'UPDATE.CREDENTIALS_NETWORK_FAILED': 'Problema de rede',
+  'UPDATE.CREDENTIALS_MISSING_REMOTE': 'Remoto ausente',
+  'UPDATE.CREDENTIALS_NOT_APPLICABLE': 'Canal de release',
+  'UPDATE.CREDENTIALS_UNKNOWN': 'Não verificado',
+  'UPDATE.NO_UPDATES': 'Seu projeto está atualizado.',
+  'UPDATE.INCOMING_COMMITS': 'Atualizações recebidas',
+  'UPDATE.DIRTY_FILES': 'Alterações locais não commitadas',
+  'UPDATE.BACKUP_OPTION': 'Fazer backup das alterações locais (git stash) antes de atualizar',
+  'UPDATE.RUNNING': 'Atualizando...',
+  'UPDATE.RESTART_HINT': 'Atualização concluída. Reinicie o aplicativo para usar a nova versão.',
+  'UPDATE.LOG_TITLE': 'Log de operações',
+  'UPDATE.REFRESH': 'Verificar novamente',
+  'UPDATE.OPEN_LOG': 'Ver log',
+  'UPDATE.HIDE_LOG': 'Ocultar log',
+  'UPDATE.CANCEL': 'Cancelar',
+  'UPDATE.CANCELING': 'Cancelando...',
+  'UPDATE.START': 'Atualizar agora',
+  'UPDATE.HINT.NOT_A_SOURCE_CHECKOUT':
+    'Esta instalação é gerenciada por releases; as atualizações são aplicadas automaticamente.',
+  'UPDATE.HINT.GIT_MISSING': 'Instale o git para habilitar atualizações via código-fonte.',
+  'UPDATE.HINT.AUTH_FAILED':
+    'Configure as credenciais git do repositório remoto (token HTTPS ou chave SSH) e tente novamente.',
+  'UPDATE.HINT.NETWORK_FAILED': 'Verifique sua conexão com a internet e tente novamente.',
+  'UPDATE.HINT.MISSING_REMOTE': 'O repositório não possui o remoto "origin" configurado.',
+  'UPDATE.HINT.DIRTY_TREE':
+    'Faça commit ou stash das suas alterações locais, ou ative a opção de backup.',
+  'UPDATE.HINT.DIVERGED':
+    'Sua branch local tem commits exclusivos. Faça merge ou rebase com origin/main manualmente.',
+  'UPDATE.HINT.NOTHING_TO_UPDATE': 'Tudo já está atualizado.',
+  'UPDATE.HINT.UPDATE_IN_PROGRESS': 'Aguarde a atualização em execução terminar.',
+  'UPDATE.HINT.UPDATE_NOT_AVAILABLE': 'Nenhuma nova release disponível.',
+  'UPDATE.HINT.MERGE_FAILED':
+    'A atualização não pôde ser aplicada. Nada foi perdido — verifique o log.',
+  'UPDATE.HINT.DEPENDENCY_FAILED':
+    'Falha ao instalar dependências. Verifique o log e rode "bun install" manualmente.',
+  'UPDATE.HINT.BUILD_FAILED':
+    'Falha ao buildar a interface. Seus arquivos anteriores estão intactos — verifique o log.',
+  'UPDATE.HINT.CANCELED': 'A atualização foi cancelada.',
+  'UPDATE.HINT.UNKNOWN': 'Erro inesperado. Verifique o log de operações.',
 };

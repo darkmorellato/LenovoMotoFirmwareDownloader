@@ -2,7 +2,11 @@ import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { extname, join, resolve, sep } from 'node:path';
 import { BrowserView, BrowserWindow, BuildConfig, Updater, Utils } from 'electrobun/bun';
-import type { DesktopRpcSchema, DownloadProgressMessage } from '../shared/desktop-rpc';
+import type {
+  DesktopRpcSchema,
+  DownloadProgressMessage,
+  ProjectUpdateProgressMessage,
+} from '../shared/desktop-rpc';
 import { cleanupLinuxCefProfileLocks } from './cef-profile.ts';
 import {
   peekStartupAuthCallbackUrl,
@@ -124,6 +128,9 @@ electrobunRuntime.default?.events?.on('open-url', (event?: unknown) => {
 const requestHandlers = createRequestHandlers({
   sendDownloadProgress: (payload) => {
     sendDownloadProgress(payload);
+  },
+  sendUpdateProgress: (payload) => {
+    sendUpdateProgress(payload);
   },
   getMainWindow: () => mainWindowRef,
   getMainWindowUrl: () => mainWindowUrl,
@@ -251,6 +258,16 @@ type DownloadProgressSendFn = (
 function sendDownloadProgress(payload: DownloadProgressPayload) {
   const sendRpcMessage = rpc.send as DownloadProgressSendFn;
   sendRpcMessage('downloadProgress', payload);
+}
+
+type UpdateProgressSendFn = (
+  message: 'updateProgress',
+  payload: ProjectUpdateProgressMessage,
+) => void;
+
+function sendUpdateProgress(payload: ProjectUpdateProgressMessage) {
+  const sendRpcMessage = rpc.send as UpdateProgressSendFn;
+  sendRpcMessage('updateProgress', payload);
 }
 
 const buildConfig = await BuildConfig.get();

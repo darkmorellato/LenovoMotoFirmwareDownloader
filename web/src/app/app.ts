@@ -13,6 +13,8 @@ import { ConnectedLookupComponent } from './features/connected/connected-lookup/
 import { DownloadsPanelComponent } from './features/downloads/downloads-panel/downloads-panel.component';
 import { RescueWorkspaceComponent } from './features/rescue/rescue-workspace/rescue-workspace.component';
 import { SourceModeComponent } from './features/source/source-mode/source-mode.component';
+import { UpdateWorkflowService } from './features/update/state';
+import { UpdateDialogComponent } from './features/update/update-dialog/update-dialog.component';
 import { AppFacade } from './state';
 
 @Component({
@@ -30,12 +32,14 @@ import { AppFacade } from './state';
     RescueWorkspaceComponent,
     AboutWorkspaceComponent,
     DesktopPromptModalComponent,
+    UpdateDialogComponent,
   ],
   templateUrl: './app.html',
 })
 export class App implements OnInit {
   protected readonly store = inject(AppFacade);
   protected readonly i18n = inject(TranslationService);
+  protected readonly update = inject(UpdateWorkflowService);
 
   async ngOnInit() {
     await ensureDesktopBridgeReady();

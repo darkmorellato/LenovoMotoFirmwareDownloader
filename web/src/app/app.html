@@ -48,6 +48,24 @@
 
         <!-- Status indicators & Controls -->
         <div class="flex flex-wrap items-center gap-2.5">
+          <!-- Update button -->
+          <button
+            class="flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold shadow-xs transition-all hover:scale-105 active:scale-95"
+            type="button"
+            (click)="update.openDialog()"
+            [title]="'UPDATE.TITLE' | translate"
+            [attr.aria-label]="'UPDATE.TITLE' | translate"
+          >
+            <span aria-hidden="true">🔄</span>
+            <span>{{ 'UPDATE.BUTTON' | translate }}</span>
+            @if (update.hasUpdate()) {
+            <span
+              class="h-2 w-2 rounded-full bg-success"
+              [attr.aria-label]="'UPDATE.AVAILABLE_BADGE' | translate"
+            ></span>
+            }
+          </button>
+
           <!-- Bridge status -->
           <div
             class="flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-medium"
@@ -261,4 +279,5 @@
   </section>
 
   <app-desktop-prompt-modal />
+  <app-update-dialog />
 </main>

@@ -21,7 +21,9 @@ import type {
   BackupRestoreSnapshotsResponse,
   BridgePingResponse,
   CancelDownloadResponse,
+  CancelProjectUpdateResponse,
   CatalogModelsResponse,
+  CheckProjectUpdateResponse,
   CleanStorageResponse,
   ConnectedBackupPreviewProgressResponse,
   ConnectedBackupPreviewResponse,
@@ -31,6 +33,7 @@ import type {
   DownloadFirmwareResponse,
   ExtractLocalFirmwareResponse,
   FastbootDeviceHealthResponse,
+  GetProjectUpdateLogResponse,
   LinuxUdevInstallResponse,
   LinuxUdevStatusResponse,
   LocalDownloadedFilesResponse,
@@ -48,6 +51,7 @@ import type {
   ReadSupportLookupResponse,
   RescueLiteFirmwareResponse,
   RestoreBackupSnapshotResponse,
+  StartProjectUpdateResponse,
   StorageUsageResponse,
   StoredAuthStateResponse,
   WindowsMtkDriverInstallResponse,
@@ -58,6 +62,10 @@ import type {
 
 export interface SetDesktopPromptPreferenceRequest {
   ask: boolean;
+}
+
+export interface StartProjectUpdateRequest {
+  backupLocalChanges?: boolean;
 }
 
 export interface BackupConnectedDeviceRequest {
@@ -355,6 +363,10 @@ export interface DesktopApi {
   checkFrameworkUpdate: () => Promise<FrameworkUpdateInfo>;
   downloadFrameworkUpdate: () => Promise<void>;
   applyFrameworkUpdate: () => Promise<void>;
+  checkProjectUpdate: () => Promise<CheckProjectUpdateResponse>;
+  startProjectUpdate: (payload?: StartProjectUpdateRequest) => Promise<StartProjectUpdateResponse>;
+  cancelProjectUpdate: () => Promise<CancelProjectUpdateResponse>;
+  getProjectUpdateLog: () => Promise<GetProjectUpdateLogResponse>;
   getWindowsQdloaderDriverStatus: () => Promise<WindowsQdloaderDriverStatusResponse>;
   installWindowsQdloaderDriver: () => Promise<WindowsQdloaderDriverInstallResponse>;
   installWindowsSpdDriver: () => Promise<WindowsSpdDriverInstallResponse>;

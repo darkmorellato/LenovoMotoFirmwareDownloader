@@ -21,6 +21,8 @@ import type {
   PlayStoreDownloadedArtifact,
   PlayStoreDownloadGroup,
   PlayStoreSearchResult,
+  ProjectUpdateMode,
+  ProjectUpdatePreflight,
   RescueFlashTransport,
   RescueQdlStorage,
 } from './entries';
@@ -385,5 +387,54 @@ export interface FastbootDeviceHealthResponse {
   unlocked?: boolean;
   secure?: boolean;
   warnings: string[];
+  error?: string;
+}
+
+export type ProjectUpdateErrorCode =
+  | 'NOT_A_SOURCE_CHECKOUT'
+  | 'GIT_MISSING'
+  | 'AUTH_FAILED'
+  | 'NETWORK_FAILED'
+  | 'MISSING_REMOTE'
+  | 'DIRTY_TREE'
+  | 'DIVERGED'
+  | 'NOTHING_TO_UPDATE'
+  | 'UPDATE_IN_PROGRESS'
+  | 'UPDATE_NOT_AVAILABLE'
+  | 'MERGE_FAILED'
+  | 'DEPENDENCY_FAILED'
+  | 'BUILD_FAILED'
+  | 'CANCELED'
+  | 'UNKNOWN';
+
+export interface CheckProjectUpdateResponse {
+  ok: boolean;
+  preflight?: ProjectUpdatePreflight;
+  code?: ProjectUpdateErrorCode;
+  error?: string;
+}
+
+export interface StartProjectUpdateResponse {
+  ok: boolean;
+  updateId: string;
+  mode: ProjectUpdateMode;
+  status: 'started' | 'completed' | 'failed' | 'canceled';
+  code?: ProjectUpdateErrorCode;
+  error?: string;
+  requiresRestart?: boolean;
+  appliedCommit?: string;
+  stashRef?: string;
+  logPath?: string;
+}
+
+export interface CancelProjectUpdateResponse {
+  ok: boolean;
+  error?: string;
+}
+
+export interface GetProjectUpdateLogResponse {
+  ok: boolean;
+  logPath?: string;
+  content?: string;
   error?: string;
 }
