@@ -255,4 +255,40 @@ export const ptBR: Record<string, string> = {
     'Falha ao buildar a interface. Seus arquivos anteriores estão intactos — verifique o log.',
   'UPDATE.HINT.CANCELED': 'A atualização foi cancelada.',
   'UPDATE.HINT.UNKNOWN': 'Erro inesperado. Verifique o log de operações.',
+
+  // Comum
+  'COMMON.COPY': 'Copiar',
+  'COMMON.COPIED': 'Copiado',
+  'COMMON.COPY_FAILED': 'Falha ao copiar',
+  'COMMON.DISMISS': 'Dispensar',
+
+  // Modal de integração desktop
+  'PROMPT.TITLE': 'Integração com a área de trabalho',
+  'PROMPT.WINDOWS_TITLE': 'Aplicativo Padrão (Windows)',
+  'PROMPT.SHORTCUT_TITLE': 'Atalho na Área de Trabalho',
+  'PROMPT.WINDOWS_DESC_1': 'O Windows permite apenas um manipulador para ',
+  'PROMPT.WINDOWS_DESC_2':
+    '. Deixe o LMFD registrar esse protocolo para este usuário do Windows se quiser que os callbacks de login Lenovo retornem para cá.',
+  'PROMPT.WINDOWS_DESC_3': 'Você pode reverter isso na aba Sobre mais tarde.',
+  'PROMPT.WMCLASS_DESC_1':
+    'Foi encontrado um atalho de área de trabalho existente, mas com uma configuração de classe de janela incorreta. Isso pode fazer o aplicativo não se agrupar corretamente na dock e na barra de tarefas.',
+  'PROMPT.WMCLASS_DESC_2': 'Deseja corrigir?',
+  'PROMPT.SHORTCUT_DESC_1': 'Parece que você não tem um atalho de área de trabalho configurado.',
+  'PROMPT.SHORTCUT_DESC_2':
+    'Deseja criar um para que o aplicativo apareça corretamente no iniciador e na dock?',
+  'PROMPT.DONT_ASK': 'Não perguntar novamente',
+  'PROMPT.NOT_NOW': 'Agora não',
+  'PROMPT.SWITCHING': 'Alternando...',
+  'PROMPT.FIXING': 'Corrigindo...',
+  'PROMPT.CREATING': 'Criando...',
+  'PROMPT.SWITCH_TO_LMFD': 'Alternar para o LMFD',
+  'PROMPT.FIX_IT': 'Corrigir',
+  'PROMPT.CREATE': 'Criar',
+
+  // Rótulos extras de relatório e backup
+  'REPORT.METHOD': 'Método',
+  'REPORT.USER_DATA': 'Dados do Usuário',
+  'REPORT.STATUS_FAILED': 'Falha / Não Concluído',
+  'BACKUP.DELETE_SNAPSHOT': 'Excluir snapshot',
+  'FIRMWARE.DRY_RUN_PROGRESS': 'Simulação em execução...',
 };

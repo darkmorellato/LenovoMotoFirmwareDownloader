@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   effect,
+  HostListener,
   inject,
   input,
   output,
@@ -93,6 +94,11 @@ export class RescueOptionsDialogComponent {
   }
 
   protected onBackdropClick() {
+    this.close.emit();
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() {
     this.close.emit();
   }
 

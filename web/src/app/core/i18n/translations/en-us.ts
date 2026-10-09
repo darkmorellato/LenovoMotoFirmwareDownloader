@@ -249,4 +249,40 @@ export const enUS: Record<string, string> = {
     'The interface build failed. Your previous files are intact — check the log.',
   'UPDATE.HINT.CANCELED': 'The update was canceled.',
   'UPDATE.HINT.UNKNOWN': 'Unexpected error. Check the operation log.',
+
+  // Common
+  'COMMON.COPY': 'Copy',
+  'COMMON.COPIED': 'Copied',
+  'COMMON.COPY_FAILED': 'Copy failed',
+  'COMMON.DISMISS': 'Dismiss',
+
+  // Desktop prompt modal
+  'PROMPT.TITLE': 'Desktop integration',
+  'PROMPT.WINDOWS_TITLE': 'Default App (Windows)',
+  'PROMPT.SHORTCUT_TITLE': 'Desktop Shortcut',
+  'PROMPT.WINDOWS_DESC_1': 'Windows only allows one handler for ',
+  'PROMPT.WINDOWS_DESC_2':
+    '. Let LMFD register that protocol for this Windows user if you want Lenovo login callbacks to return here.',
+  'PROMPT.WINDOWS_DESC_3': 'You can switch it back from the About tab later.',
+  'PROMPT.WMCLASS_DESC_1':
+    'An existing desktop shortcut was found, but it has an incorrect window class setting. This can cause the application to not group correctly in your dock and taskbar.',
+  'PROMPT.WMCLASS_DESC_2': 'Would you like to fix it?',
+  'PROMPT.SHORTCUT_DESC_1': "It looks like you don't have a desktop shortcut configured.",
+  'PROMPT.SHORTCUT_DESC_2':
+    'Would you like to create one so it appears correctly in your application launcher and dock?',
+  'PROMPT.DONT_ASK': "Don't ask again",
+  'PROMPT.NOT_NOW': 'Not now',
+  'PROMPT.SWITCHING': 'Switching...',
+  'PROMPT.FIXING': 'Fixing...',
+  'PROMPT.CREATING': 'Creating...',
+  'PROMPT.SWITCH_TO_LMFD': 'Switch to LMFD',
+  'PROMPT.FIX_IT': 'Fix it',
+  'PROMPT.CREATE': 'Create',
+
+  // Missing/extra report + backup labels
+  'REPORT.METHOD': 'Method',
+  'REPORT.USER_DATA': 'User Data',
+  'REPORT.STATUS_FAILED': 'Failed / Not Completed',
+  'BACKUP.DELETE_SNAPSHOT': 'Delete snapshot',
+  'FIRMWARE.DRY_RUN_PROGRESS': 'Dry run in progress...',
 };

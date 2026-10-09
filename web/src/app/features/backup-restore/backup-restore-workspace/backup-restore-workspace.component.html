@@ -238,6 +238,8 @@
             }
             @for (app of connectedPreviewAppItems(); track app.id) {
               <article
+                role="button"
+                tabindex="0"
                 class="flex cursor-pointer items-center gap-3 rounded-lg border p-2 transition"
                 [class.border-success]="isConnectedPreviewAppSelected(app)"
                 [class.bg-success-light]="isConnectedPreviewAppSelected(app) && !store.isDark()"
@@ -247,6 +249,8 @@
                 [class.border-dark-border-bright]="!isConnectedPreviewAppSelected(app) && store.isDark()"
                 [class.bg-dark-surface]="store.isDark()"
                 (click)="toggleConnectedPreviewAppSelection(app)"
+                (keydown.enter)="toggleConnectedPreviewAppSelection(app)"
+                (keydown.space)="toggleConnectedPreviewAppSelection(app); $event.preventDefault()"
               >
                 <div
                   class="h-10 w-10 shrink-0 overflow-hidden rounded-lg border"
@@ -374,6 +378,8 @@
           <div class="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-4 xl:grid-cols-6">
             @for (entry of connectedPreviewMediaItems(); track entry.id) {
               <article
+                role="button"
+                tabindex="0"
                 class="cursor-pointer overflow-hidden rounded-lg border transition"
                 [class.border-success]="isConnectedPreviewMediaSelected(entry)"
                 [class.bg-success-light]="isConnectedPreviewMediaSelected(entry) && !store.isDark()"
@@ -385,6 +391,8 @@
                 [class.border-dark-border-bright]="!isConnectedPreviewMediaSelected(entry) && store.isDark()"
                 [class.bg-dark-surface]="store.isDark()"
                 (click)="toggleConnectedPreviewMediaSelection(entry)"
+                (keydown.enter)="toggleConnectedPreviewMediaSelection(entry)"
+                (keydown.space)="toggleConnectedPreviewMediaSelection(entry); $event.preventDefault()"
               >
                 <div class="relative aspect-square w-full">
                   @if (entry.thumbnailDataUrl) {
@@ -465,6 +473,8 @@
           <div class="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
             @for (contact of connectedPreviewContactItems(); track contact.id) {
               <article
+                role="button"
+                tabindex="0"
                 class="flex cursor-pointer items-center gap-3 rounded-lg border p-2 transition"
                 [class.border-success]="isConnectedPreviewContactSelected(contact)"
                 [class.bg-success-light]="
@@ -482,6 +492,8 @@
                 "
                 [class.bg-dark-surface]="store.isDark()"
                 (click)="toggleConnectedPreviewContactSelection(contact)"
+                (keydown.enter)="toggleConnectedPreviewContactSelection(contact)"
+                (keydown.space)="toggleConnectedPreviewContactSelection(contact); $event.preventDefault()"
               >
                 <div
                   class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border text-xs font-bold"
@@ -668,7 +680,7 @@
                 [class.text-rose-300]="store.isDark()"
                 [class.hover:bg-rose-950]="store.isDark()"
                 type="button"
-                aria-label="Delete snapshot"
+                [attr.aria-label]="'BACKUP.DELETE_SNAPSHOT' | translate"
                 (click)="onDeleteSnapshot(snapshot, $event)"
               >
                 <svg

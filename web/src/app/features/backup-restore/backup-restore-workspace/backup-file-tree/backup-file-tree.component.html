@@ -73,7 +73,12 @@
             @if (selectable) {
               <div
                 class="shrink-0 cursor-pointer"
+                role="checkbox"
+                tabindex="0"
+                [attr.aria-checked]="isFolderAllSelected(node)"
                 (click)="$event.stopPropagation(); onToggleFolder(node)"
+                (keydown.enter)="$event.stopPropagation(); onToggleFolder(node)"
+                (keydown.space)="$event.stopPropagation(); onToggleFolder(node); $event.preventDefault()"
               >
                 <div
                   class="flex h-4 w-4 items-center justify-center rounded border text-[9px] font-bold"

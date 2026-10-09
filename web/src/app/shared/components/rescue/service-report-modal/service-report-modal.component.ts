@@ -2,12 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  HostListener,
   inject,
   input,
   output,
   signal,
 } from '@angular/core';
 import { TranslatePipe } from '../../../../core/i18n/translate.pipe';
+import { TranslationService } from '../../../../core/i18n/translation.service';
 import { RescueDialogButtonComponent } from '../rescue-dialog-button/rescue-dialog-button.component';
 
 export interface ServiceReportData {
@@ -35,6 +37,7 @@ export class ServiceReportModalComponent {
   readonly close = output<void>();
 
   private readonly destroyRef = inject(DestroyRef);
+  private readonly i18n = inject(TranslationService);
   protected readonly copied = signal(false);
   private copyTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -50,6 +53,11 @@ export class ServiceReportModalComponent {
     this.close.emit();
   }
 
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    this.close.emit();
+  }
+
   protected onDialogClick(event: Event) {
     event.stopPropagation();
   }
@@ -62,18 +70,23 @@ export class ServiceReportModalComponent {
     const data = this.report();
     if (!data) return;
 
+    const t = (key: string) => this.i18n.translate(key);
     const text = [
       '========================================',
-      'COMPROVANTE DE ATENDIMENTO TÉCNICO',
+      t('REPORT.TITLE'),
       'Lenovo & Motorola Firmware Rescue',
       '========================================',
-      `Data/Hora: ${data.date}`,
-      `Dispositivo: ${data.deviceModel || 'N/A'}`,
-      `Número de Série / SN: ${data.serialNumber || 'N/A'}`,
-      `Firmware Instalado: ${data.firmwareVersion || 'N/A'}`,
-      `Método: ${data.transport || 'Fastboot'}`,
-      `Dados do Usuário: ${data.dataResetChoice === 'no' ? 'Preservados' : 'Reset de Fábrica'}`,
-      `Status: ${data.status === 'success' ? 'Concluído com Êxito' : 'Falha / Não Concluído'}`,
+      `${t('REPORT.DATE')}: ${data.date}`,
+      `${t('REPORT.DEVICE')}: ${data.deviceModel || 'N/A'}`,
+      `${t('REPORT.SERIAL')}: ${data.serialNumber || 'N/A'}`,
+      `${t('REPORT.FIRMWARE')}: ${data.firmwareVersion || 'N/A'}`,
+      `${t('REPORT.METHOD')}: ${data.transport || 'Fastboot'}`,
+      `${t('REPORT.USER_DATA')}: ${
+        data.dataResetChoice === 'no' ? t('REPORT.DATA_PRESERVED') : t('REPORT.DATA_WIPED')
+      }`,
+      `${t('REPORT.OUTCOME')}: ${
+        data.status === 'success' ? t('REPORT.STATUS_SUCCESS') : t('REPORT.STATUS_FAILED')
+      }`,
       '========================================',
     ].join('\n');
 

@@ -5,6 +5,9 @@
   >
     <div
       class="relative w-full max-w-3xl rounded-2xl border p-5 shadow-xl"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="'RESCUE.DRY_RUN_TITLE' | translate"
       [class.border-dark-border]="isDark()"
       [class.bg-dark-surface]="isDark()"
       [class.border-light-border]="!isDark()"
@@ -16,7 +19,7 @@
         [class.text-dark-text-bright]="isDark()"
         [class.text-light-text-bright]="!isDark()"
       >
-        Rescue Lite Dry Run Plan
+        {{ 'RESCUE.DRY_RUN_TITLE' | translate }}
       </h4>
       <p class="mt-2 font-mono text-xs" [class.text-dark-text]="isDark()" [class.text-light-text]="!isDark()">
         <span class="text-accent">rom:</span> {{ activePlan.romName }}
@@ -71,7 +74,11 @@
           [disabled]="!hasCommands()"
           (clicked)="onCopyCommands()"
         />
-        <app-rescue-dialog-button label="Close" variant="primary" (clicked)="onBackdropClick()" />
+        <app-rescue-dialog-button
+          [label]="'COMMON.CLOSE' | translate"
+          variant="primary"
+          (clicked)="onBackdropClick()"
+        />
       </div>
     </div>
   </div>

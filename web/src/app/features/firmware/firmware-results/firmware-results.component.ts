@@ -1,5 +1,5 @@
 import type { OnInit } from '@angular/core';
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import type {
   FirmwareVariant,
@@ -22,6 +22,7 @@ import { FirmwareVariantCardComponent } from './components/firmware-variant-card
 
 @Component({
   selector: 'app-firmware-results',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     FirmwareActiveDownloadCardComponent,

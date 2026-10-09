@@ -144,6 +144,7 @@
         <!-- Status indicator -->
         <div
           class="flex items-center gap-2 text-sm"
+          aria-live="polite"
           [class.text-dark-text-dim]="store.isDark()"
           [class.text-light-text-dim]="!store.isDark()"
         >
@@ -249,7 +250,11 @@
   </div>
 
   <!-- TOAST NOTIFICATIONS -->
-  <section class="pointer-events-none fixed right-4 top-4 z-50 grid max-w-md gap-3">
+  <section
+    class="pointer-events-none fixed right-4 top-4 z-50 grid max-w-md gap-3"
+    role="status"
+    aria-live="polite"
+  >
     @for (toast of store.toasts(); track toast.id) {
     <article
       class="pointer-events-auto rounded-lg border-l-4 px-4 py-3 text-sm shadow-lg animate-fade-in"
@@ -269,6 +274,8 @@
         <button
           class="shrink-0 opacity-60 transition hover:opacity-100"
           type="button"
+          [attr.aria-label]="'COMMON.DISMISS' | translate"
+          [title]="'COMMON.DISMISS' | translate"
           (click)="store.dismissToast(toast.id)"
         >
           ✕

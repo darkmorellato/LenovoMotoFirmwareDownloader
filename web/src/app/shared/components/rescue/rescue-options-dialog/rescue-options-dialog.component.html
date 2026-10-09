@@ -5,6 +5,9 @@
   >
     <div
       class="relative w-full max-w-xl rounded-2xl border p-5 shadow-xl"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="title()"
       [class.border-dark-border]="isDark()"
       [class.bg-dark-surface]="isDark()"
       [class.border-light-border]="!isDark()"

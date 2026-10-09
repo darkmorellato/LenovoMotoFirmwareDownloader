@@ -1,5 +1,5 @@
 import type { OnInit } from '@angular/core';
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import type { FrameworkUpdateInfo } from '../../../core/models/desktop-api';
 import { WorkflowUiService } from '../../../shared/state/workflow-ui.service';
@@ -52,6 +52,7 @@ function parseGitHubReleases(value: ReleasePayload) {
 
 @Component({
   selector: 'app-about-workspace',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [TranslatePipe],
   templateUrl: './about-workspace.component.html',

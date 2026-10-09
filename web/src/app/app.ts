@@ -1,5 +1,5 @@
 import type { OnInit } from '@angular/core';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ensureDesktopBridgeReady } from './core/bridge/electrobun-bridge';
 import { TranslatePipe } from './core/i18n/translate.pipe';
 import { TranslationService } from './core/i18n/translation.service';
@@ -19,6 +19,7 @@ import { AppFacade } from './state';
 
 @Component({
   selector: 'app-root',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     TranslatePipe,
