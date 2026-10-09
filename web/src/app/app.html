@@ -184,7 +184,7 @@
       [class.text-danger]="true"
       [class.bg-dark-surface]="store.isDark()"
     >
-      <span class="font-semibold">Error:</span> {{ store.errorMessage() }}
+      <span class="font-semibold">{{ 'ERRORS.LABEL' | translate }}</span> {{ store.errorMessage() }}
     </div>
     }
 
@@ -287,4 +287,5 @@
 
   <app-desktop-prompt-modal />
   <app-update-dialog />
+  <app-confirm-dialog />
 </main>

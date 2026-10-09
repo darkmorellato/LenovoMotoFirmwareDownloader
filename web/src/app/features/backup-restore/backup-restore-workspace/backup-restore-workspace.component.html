@@ -291,7 +291,7 @@
                     [class.text-light-text-dim]="!store.isDark()"
                     [class.text-dark-text-dim]="store.isDark()"
                   >
-                    {{ app.packageName || 'Unknown package' }}
+                    {{ app.packageName || ('BACKUP.UNKNOWN_PACKAGE' | translate) }}
                   </p>
                 </div>
                 <div class="ml-auto shrink-0">
@@ -592,7 +592,7 @@
   </div>
 
   <app-rescue-flash-console
-    [title]="'Backup/Restore Console'"
+    [title]="'BACKUP.CONSOLE_TITLE' | translate"
     [context]="'backup'"
     [download]="store.firmwareDownload()"
     [isDark]="store.isDark()"
@@ -738,7 +738,7 @@
                 [class.text-light-text-dim]="!store.isDark()"
                 [class.text-dark-text]="store.isDark()"
               >
-                {{ snapshot.categories.join(', ') || 'No detected categories' }}
+                {{ snapshot.categories.join(', ') || ('BACKUP.NO_CATEGORIES' | translate) }}
               </p>
             </div>
           }
@@ -909,8 +909,8 @@
                     {{
                       restoreState.response.detail ||
                         (restoreState.response.ok
-                          ? 'Restore completed.'
-                          : 'Restore finished with failures.')
+                          ? ('BACKUP.RESTORE_DONE' | translate)
+                          : ('BACKUP.RESTORE_PARTIAL' | translate))
                     }}
                   </p>
                   <p
@@ -1458,7 +1458,7 @@
                         [class.text-light-text-dim]="!store.isDark()"
                         [class.text-dark-text-dim]="store.isDark()"
                       >
-                        {{ app.packageName || 'Unknown package' }}
+                        {{ app.packageName || ('BACKUP.UNKNOWN_PACKAGE' | translate) }}
                       </p>
                     </div>
                   </article>

@@ -16,7 +16,7 @@
           [class.text-dark-text-bright]="store.isDark()"
           [class.text-light-text-bright]="!store.isDark()"
         >
-          Search Aurora packages
+          {{ 'APPSTORE.SEARCH_AURORA' | translate }}
         </h2>
       </div>
 
@@ -46,7 +46,7 @@
           [class.text-dark-text-dim]="store.isDark()"
           [class.text-light-text-dim]="!store.isDark()"
         >
-          Search Query
+          {{ 'APPSTORE.SEARCH_QUERY' | translate }}
         </span>
         <input
           class="w-full rounded-xl border px-4 py-3 text-sm outline-none transition-colors"
@@ -59,7 +59,7 @@
           [class.bg-light-bg]="!store.isDark()"
           [class.text-light-text]="!store.isDark()"
           [value]="store.searchQuery()"
-          placeholder="Signal, Firefox, WhatsApp..."
+          [placeholder]="'APPSTORE.SEARCH_PLACEHOLDER' | translate"
           type="text"
           (input)="onSearchQueryInput($event)"
           (keydown.enter)="store.search()"
@@ -73,7 +73,7 @@
           [disabled]="store.searchInProgress() || !store.toolStatus()?.available"
           (click)="store.search()"
         >
-          Search
+          {{ 'APPSTORE.SEARCH_BTN' | translate }}
         </button>
       </div>
     </div>
@@ -84,7 +84,7 @@
         [class.text-dark-text-dim]="store.isDark()"
         [class.text-light-text-dim]="!store.isDark()"
       >
-        Target Arch
+        {{ 'APPSTORE.TARGET_ARCH' | translate }}
       </span>
       <app-ui-action-button
         [label]="'ARM64'"
@@ -111,7 +111,7 @@
           [class.border-light-border]="!store.isDark()"
           [class.text-light-text-dim]="!store.isDark()"
         >
-          Search results will appear here.
+          {{ 'APPSTORE.SEARCH_EMPTY' | translate }}
         </div>
       } @else {
         @for (result of store.searchResults(); track result.packageName) {
@@ -185,7 +185,7 @@
                   [class.bg-accent]="true"
                   [class.text-white]="true"
                 >
-                  Selected
+                  {{ 'APPSTORE.SELECTED' | translate }}
                 </span>
               }
             </div>
@@ -221,21 +221,21 @@
               [class.text-dark-text-dim]="store.isDark()"
               [class.text-light-text-dim]="!store.isDark()"
             >
-              Selected App
+              {{ 'APPSTORE.SELECTED_APP' | translate }}
             </p>
             <h3
               class="mt-2 truncate text-xl font-semibold"
               [class.text-dark-text-bright]="store.isDark()"
               [class.text-light-text-bright]="!store.isDark()"
             >
-              {{ store.selectedDetails()?.title || 'Choose a result' }}
+              {{ store.selectedDetails()?.title || ('APPSTORE.CHOOSE_RESULT' | translate) }}
             </h3>
             <p
               class="mt-2 truncate text-sm"
               [class.text-dark-text-dim]="store.isDark()"
               [class.text-light-text-dim]="!store.isDark()"
             >
-              {{ store.selectedDetails()?.packageName || 'Pick a search result to download it.' }}
+              {{ store.selectedDetails()?.packageName || ('APPSTORE.PICK_RESULT' | translate) }}
             </p>
           </div>
         </div>
@@ -247,7 +247,7 @@
               [class.text-dark-text]="store.isDark()"
               [class.text-light-text]="!store.isDark()"
             >
-              {{ details.versionName || 'Unknown version' }}
+              {{ details.versionName || ('APPSTORE.UNKNOWN_VERSION' | translate) }}
             </p>
             @if (details.versionCode) {
               <p

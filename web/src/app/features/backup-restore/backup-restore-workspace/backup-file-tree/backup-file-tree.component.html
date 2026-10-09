@@ -1,6 +1,6 @@
 @if (tree().length === 0 && depth() === 0) {
   <p class="mt-2 text-xs" [class.text-light-text-dim]="!isDark()" [class.text-dark-text-dim]="isDark()">
-    No files found.
+    {{ 'BACKUP.NO_FILES' | translate }}
   </p>
 } @else {
   @if (depth() === 0) {
@@ -15,7 +15,7 @@
         [disabled]="allExpanded()"
         (click)="expandAll()"
       >
-        Expand all
+        {{ 'BACKUP.EXPAND_ALL' | translate }}
       </button>
       <button
         type="button"
@@ -27,7 +27,7 @@
         [disabled]="!anyExpanded()"
         (click)="collapseAll()"
       >
-        Collapse all
+        {{ 'BACKUP.COLLAPSE_ALL' | translate }}
       </button>
     </div>
   }
@@ -67,7 +67,7 @@
               [class.text-light-text-dim]="!isDark()"
               [class.text-dark-text-dim]="isDark()"
             >
-              {{ childFileCount(node) }} file{{ childFileCount(node) === 1 ? '' : 's' }}
+              {{ childFileCount(node) }} {{ (childFileCount(node) === 1 ? 'BACKUP.FILE_ONE' : 'BACKUP.FILE_MANY') | translate }}
             </span>
 
             @if (selectable) {

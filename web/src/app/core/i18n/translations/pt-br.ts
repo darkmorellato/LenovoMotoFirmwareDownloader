@@ -291,4 +291,57 @@ export const ptBR: Record<string, string> = {
   'REPORT.STATUS_FAILED': 'Falha / Não Concluído',
   'BACKUP.DELETE_SNAPSHOT': 'Excluir snapshot',
   'FIRMWARE.DRY_RUN_PROGRESS': 'Simulação em execução...',
+
+  // Diálogo de confirmação
+  'COMMON.CANCEL': 'Cancelar',
+  'COMMON.CANNOT_UNDO': 'Esta ação não pode ser desfeita.',
+  'ERRORS.LABEL': 'Erro:',
+  'ERRORS.REQUEST_FAILED': 'A solicitação falhou.',
+  'THEME.SWITCHED_DARK': 'Alternado para modo escuro.',
+  'THEME.SWITCHED_LIGHT': 'Alternado para modo claro.',
+
+  // Sobre / udev / atualização do framework
+  'ABOUT.UDEV_SUCCESS': 'Regras Udev instaladas com sucesso! Permissões USB ativadas.',
+  'ABOUT.UDEV_ERROR': 'Falha ao instalar regras Udev.',
+  'ABOUT.UPDATE_CHECK_DISABLED':
+    'Verificações de atualização desativadas para desenvolvimento local.',
+  'ABOUT.LATEST_VERSION': 'Você está na versão mais recente.',
+  'ABOUT.UPDATE_AUTO_UNAVAILABLE':
+    'Atualização automática indisponível para esta build. Abrindo a página de download...',
+  'ABOUT.DOWNLOADING_UPDATE': 'Baixando atualização...',
+  'ABOUT.UPDATE_DOWNLOADED': 'Atualização baixada. Aplicando...',
+  'ABOUT.UPDATE_FAILED': 'Falha na atualização:',
+
+  // Barra de seleção
+  'TOOLBAR.SELECT_ALL': 'Selecionar tudo',
+  'TOOLBAR.CLEAR_ALL': 'Limpar tudo',
+  'TOOLBAR.SELECT_PAGE': 'Selecionar página',
+  'TOOLBAR.CLEAR_PAGE': 'Limpar página',
+  'TOOLBAR.PREV': 'Anterior',
+  'TOOLBAR.NEXT': 'Próxima',
+  'TOOLBAR.PAGE': 'Página',
+
+  // Árvore de arquivos do backup
+  'BACKUP.NO_FILES': 'Nenhum arquivo encontrado.',
+  'BACKUP.EXPAND_ALL': 'Expandir tudo',
+  'BACKUP.COLLAPSE_ALL': 'Recolher tudo',
+  'BACKUP.FILE_ONE': 'arquivo',
+  'BACKUP.FILE_MANY': 'arquivos',
+  'BACKUP.UNKNOWN_PACKAGE': 'Pacote desconhecido',
+  'BACKUP.NO_CATEGORIES': 'Nenhuma categoria detectada',
+  'BACKUP.RESTORE_DONE': 'Restauração concluída',
+  'BACKUP.RESTORE_PARTIAL': 'Restauração finalizada com falhas',
+  'BACKUP.CONSOLE_TITLE': 'Console de Backup/Restauração',
+
+  // App Store
+  'APPSTORE.SEARCH_AURORA': 'Buscar pacotes Aurora',
+  'APPSTORE.SEARCH_QUERY': 'Termo de busca',
+  'APPSTORE.SEARCH_BTN': 'Buscar',
+  'APPSTORE.TARGET_ARCH': 'Arquitetura alvo',
+  'APPSTORE.SEARCH_EMPTY': 'Os resultados da busca aparecerão aqui.',
+  'APPSTORE.SELECTED': 'Selecionado',
+  'APPSTORE.SELECTED_APP': 'App Selecionado',
+  'APPSTORE.CHOOSE_RESULT': 'Escolha um resultado',
+  'APPSTORE.PICK_RESULT': 'Escolha um resultado da busca para baixar.',
+  'APPSTORE.UNKNOWN_VERSION': 'Versão desconhecida',
 };

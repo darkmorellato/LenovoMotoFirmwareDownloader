@@ -1,6 +1,7 @@
 import type { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
+import { TranslationService } from '../../../core/i18n/translation.service';
 import type { FrameworkUpdateInfo } from '../../../core/models/desktop-api';
 import { WorkflowUiService } from '../../../shared/state/workflow-ui.service';
 import { AboutFacade } from '../state';
@@ -60,6 +61,7 @@ function parseGitHubReleases(value: ReleasePayload) {
 export class AboutWorkspaceComponent implements OnInit {
   protected readonly store = inject(AboutFacade);
   protected readonly ui = inject(WorkflowUiService);
+  protected readonly i18n = inject(TranslationService);
   protected desktopStatus = signal<
     'checking' | 'ok' | 'missing' | 'wrong_wmclass' | 'not_linux' | 'creating'
   >('checking');
@@ -119,12 +121,9 @@ export class AboutWorkspaceComponent implements OnInit {
       const res = await this.store.installLinuxUdevRules();
       if (res.ok) {
         this.udevStatus.set('installed');
-        this.ui.showToast(
-          'Regras Udev instaladas com sucesso! Permissões USB ativadas.',
-          'success',
-        );
+        this.ui.showToast(this.i18n.translate('ABOUT.UDEV_SUCCESS'), 'success');
       } else {
-        this.ui.showToast(res.error || 'Falha ao instalar regras Udev.', 'error');
+        this.ui.showToast(res.error || this.i18n.translate('ABOUT.UDEV_ERROR'), 'error');
         await this.checkUdevStatus();
       }
     } finally {
@@ -157,7 +156,7 @@ export class AboutWorkspaceComponent implements OnInit {
 
       // Skip update check for local dev builds
       if (channel === 'dev') {
-        this.ui.showToast('Update checks are disabled for local development.', 'info');
+        this.ui.showToast(this.i18n.translate('ABOUT.UPDATE_CHECK_DISABLED'), 'info');
         return;
       }
 
@@ -227,11 +226,14 @@ export class AboutWorkspaceComponent implements OnInit {
             });
             this.showUpdateModal.set(true);
           } else {
-            this.ui.showToast(`You are on the latest ${channel} version.`, 'info');
+            this.ui.showToast(
+              `${this.i18n.translate('ABOUT.LATEST_VERSION')} (${channel})`,
+              'info',
+            );
           }
         }
       } else {
-        this.ui.showToast(`You are on the latest ${channel} version.`, 'info');
+        this.ui.showToast(`${this.i18n.translate('ABOUT.LATEST_VERSION')} (${channel})`, 'info');
       }
     } finally {
       this.checkingUpdate.set(false);
@@ -243,25 +245,22 @@ export class AboutWorkspaceComponent implements OnInit {
 
     if (!this.isAutomatedUpdate()) {
       this.showUpdateModal.set(false);
-      this.ui.showToast(
-        'Automatic update unavailable for this build. Opening download page...',
-        'info',
-      );
+      this.ui.showToast(this.i18n.translate('ABOUT.UPDATE_AUTO_UNAVAILABLE'), 'info');
       await this.openReleasePage();
       return;
     }
 
     this.downloadingUpdate.set(true);
-    const toastId = this.ui.showToast('Downloading update...', 'info', 0);
+    const toastId = this.ui.showToast(this.i18n.translate('ABOUT.DOWNLOADING_UPDATE'), 'info', 0);
     try {
       await this.store.downloadFrameworkUpdate();
       this.ui.dismissToast(toastId);
-      this.ui.showToast('Update downloaded. Applying...', 'success');
+      this.ui.showToast(this.i18n.translate('ABOUT.UPDATE_DOWNLOADED'), 'success');
       await this.store.applyFrameworkUpdate();
     } catch (e) {
       this.ui.dismissToast(toastId);
       const errMsg = e instanceof Error ? e.message : String(e);
-      this.ui.showToast(`Update failed: ${errMsg}`, 'error', 10000);
+      this.ui.showToast(`${this.i18n.translate('ABOUT.UPDATE_FAILED')} ${errMsg}`, 'error', 10000);
       console.error('Update applying error:', e);
     } finally {
       this.downloadingUpdate.set(false);

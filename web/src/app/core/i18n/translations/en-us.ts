@@ -285,4 +285,56 @@ export const enUS: Record<string, string> = {
   'REPORT.STATUS_FAILED': 'Failed / Not Completed',
   'BACKUP.DELETE_SNAPSHOT': 'Delete snapshot',
   'FIRMWARE.DRY_RUN_PROGRESS': 'Dry run in progress...',
+
+  // Confirmation dialog
+  'COMMON.CANCEL': 'Cancel',
+  'COMMON.CANNOT_UNDO': 'This action cannot be undone.',
+  'ERRORS.LABEL': 'Error:',
+  'ERRORS.REQUEST_FAILED': 'Request failed.',
+  'THEME.SWITCHED_DARK': 'Switched to dark mode.',
+  'THEME.SWITCHED_LIGHT': 'Switched to light mode.',
+
+  // About / udev / framework update toasts
+  'ABOUT.UDEV_SUCCESS': 'Udev rules installed successfully! USB permissions enabled.',
+  'ABOUT.UDEV_ERROR': 'Failed to install udev rules.',
+  'ABOUT.UPDATE_CHECK_DISABLED': 'Update checks are disabled for local development.',
+  'ABOUT.LATEST_VERSION': 'You are on the latest version.',
+  'ABOUT.UPDATE_AUTO_UNAVAILABLE':
+    'Automatic update unavailable for this build. Opening download page...',
+  'ABOUT.DOWNLOADING_UPDATE': 'Downloading update...',
+  'ABOUT.UPDATE_DOWNLOADED': 'Update downloaded. Applying...',
+  'ABOUT.UPDATE_FAILED': 'Update failed:',
+
+  // Selection toolbar
+  'TOOLBAR.SELECT_ALL': 'Select all',
+  'TOOLBAR.CLEAR_ALL': 'Clear all',
+  'TOOLBAR.SELECT_PAGE': 'Select page',
+  'TOOLBAR.CLEAR_PAGE': 'Clear page',
+  'TOOLBAR.PREV': 'Prev',
+  'TOOLBAR.NEXT': 'Next',
+  'TOOLBAR.PAGE': 'Page',
+
+  // Backup file tree
+  'BACKUP.NO_FILES': 'No files found.',
+  'BACKUP.EXPAND_ALL': 'Expand all',
+  'BACKUP.COLLAPSE_ALL': 'Collapse all',
+  'BACKUP.FILE_ONE': 'file',
+  'BACKUP.FILE_MANY': 'files',
+  'BACKUP.UNKNOWN_PACKAGE': 'Unknown package',
+  'BACKUP.NO_CATEGORIES': 'No detected categories',
+  'BACKUP.RESTORE_DONE': 'Restore completed',
+  'BACKUP.RESTORE_PARTIAL': 'Restore finished with failures',
+  'BACKUP.CONSOLE_TITLE': 'Backup/Restore Console',
+
+  // App store workspace
+  'APPSTORE.SEARCH_AURORA': 'Search Aurora packages',
+  'APPSTORE.SEARCH_QUERY': 'Search Query',
+  'APPSTORE.SEARCH_BTN': 'Search',
+  'APPSTORE.TARGET_ARCH': 'Target Arch',
+  'APPSTORE.SEARCH_EMPTY': 'Search results will appear here.',
+  'APPSTORE.SELECTED': 'Selected',
+  'APPSTORE.SELECTED_APP': 'Selected App',
+  'APPSTORE.CHOOSE_RESULT': 'Choose a result',
+  'APPSTORE.PICK_RESULT': 'Pick a search result to download it.',
+  'APPSTORE.UNKNOWN_VERSION': 'Unknown version',
 };

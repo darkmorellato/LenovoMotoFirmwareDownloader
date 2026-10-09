@@ -15,6 +15,7 @@ import { RescueWorkspaceComponent } from './features/rescue/rescue-workspace/res
 import { SourceModeComponent } from './features/source/source-mode/source-mode.component';
 import { UpdateWorkflowService } from './features/update/state';
 import { UpdateDialogComponent } from './features/update/update-dialog/update-dialog.component';
+import { ConfirmDialogComponent } from './shared/components/ui/confirm-dialog/confirm-dialog.component';
 import { AppFacade } from './state';
 
 @Component({
@@ -34,6 +35,7 @@ import { AppFacade } from './state';
     AboutWorkspaceComponent,
     DesktopPromptModalComponent,
     UpdateDialogComponent,
+    ConfirmDialogComponent,
   ],
   templateUrl: './app.html',
 })

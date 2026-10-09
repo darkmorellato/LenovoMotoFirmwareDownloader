@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { TranslationService } from '../../../core/i18n/translation.service';
 import type {
   BackupRestoreAppEntry,
   BackupRestoreContactEntry,
@@ -8,6 +9,7 @@ import type {
 import { RescueFlashConsoleComponent } from '../../../shared/components/rescue/rescue-flash-console/rescue-flash-console.component';
 import { BackupSelectionToolbarComponent } from '../../../shared/components/ui/backup-selection-toolbar/backup-selection-toolbar.component';
 import { UiActionButtonComponent } from '../../../shared/components/ui/ui-action-button/ui-action-button.component';
+import { WorkflowUiService } from '../../../shared/state/workflow-ui.service';
 import { formatBytes, formatTime } from '../../../shared/utils/format';
 import type { RestoreResultState } from '../state/backup-restore.workflow';
 import { BackupRestoreFacade } from '../state/index';
@@ -43,6 +45,8 @@ import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 })
 export class BackupRestoreWorkspaceComponent {
   protected readonly store = inject(BackupRestoreFacade);
+  private readonly ui = inject(WorkflowUiService);
+  private readonly i18n = inject(TranslationService);
   protected readonly previewLoadingSkeletons = Array.from({ length: 12 }, (_, index) => index);
   protected readonly mediaFilterOptions: { value: 'all' | 'image' | 'video'; label: string }[] = [
     { value: 'all', label: 'All' },
@@ -400,7 +404,10 @@ export class BackupRestoreWorkspaceComponent {
   protected async onDeleteSnapshot(snapshot: BackupRestoreSnapshot, event: Event) {
     event.stopPropagation();
 
-    const confirmed = window.confirm(`Delete snapshot "${snapshot.title}"? This cannot be undone.`);
+    const confirmed = await this.ui.confirm(
+      `${this.i18n.translate('BACKUP.DELETE_SNAPSHOT')}: ${snapshot.title}`,
+      this.i18n.translate('COMMON.CANNOT_UNDO'),
+    );
     if (!confirmed) {
       return;
     }
