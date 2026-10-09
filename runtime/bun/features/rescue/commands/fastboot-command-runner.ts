@@ -145,6 +145,24 @@ async function reconnectFastbootAfterReboot(
   }
 }
 
+// Drops fastboot flash options such as `-S 1G` (sparse split size, handled by the
+// client's own max-download-size splitting) so positional args are partition, file.
+export function stripFlashOptions(args: string[]) {
+  const positional: string[] = [];
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i] || '';
+    if (arg === '-S' || arg === '--slot' || arg === '-s') {
+      i++;
+      continue;
+    }
+    if (arg.startsWith('-') && arg.length > 1) {
+      continue;
+    }
+    positional.push(arg);
+  }
+  return positional;
+}
+
 export async function runFastbootCommand(
   command: PreparedFastbootCommand,
   context: RescueCommandExecutionContext,
@@ -157,8 +175,7 @@ export async function runFastbootCommand(
 
   switch (verb) {
     case 'flash': {
-      const partition = command.args[1];
-      const filePath = command.args[2];
+      const [partition, filePath] = stripFlashOptions(command.args.slice(1));
       if (!partition || !filePath) {
         throw new Error(`Malformed fastboot flash command: ${command.label}`);
       }
