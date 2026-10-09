@@ -28,6 +28,8 @@
     "arch:check": "bun run arch:layers && bun run arch:cycles",
     "tsc": "bunx tsc -p tsconfig.json --noEmit && bunx tsc -p web/tsconfig.app.json --noEmit",
     "check": "bun run arch:check && bun run tsc && bun run biome:check",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
     "biome:format": "bunx --bun @biomejs/biome format --write",
     "biome:lint": "bunx --bun @biomejs/biome lint --write",
     "biome:check": "bunx --bun @biomejs/biome check",

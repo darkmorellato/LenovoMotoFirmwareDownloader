@@ -1,0 +1,42 @@
+name: Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Architecture, typecheck, lint and tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.2"
+
+      - name: Install root dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install web dependencies
+        run: |
+          cd web
+          bun install --frozen-lockfile
+
+      - name: Architecture checks (layers + cycles)
+        run: bun run arch:check
+
+      - name: Typecheck (runtime + web)
+        run: bun run tsc
+
+      - name: Biome
+        run: bun run biome:ci
+
+      - name: Tests
+        run: bun test
