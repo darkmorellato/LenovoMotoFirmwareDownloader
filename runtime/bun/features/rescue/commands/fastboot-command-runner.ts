@@ -248,6 +248,7 @@ export async function runFastbootCommand(
       return;
     }
 
+    case 'set_active':
     case 'set-active': {
       const slot = command.args[1];
       if (!slot) {
