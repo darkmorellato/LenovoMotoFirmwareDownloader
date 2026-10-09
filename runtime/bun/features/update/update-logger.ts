@@ -4,23 +4,12 @@
  */
 import { appendFileSync, mkdirSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { redactSensitiveText } from '../../../../core/common/logger.ts';
 import { DATA_DIR } from '../../../../core/infra/storage.ts';
 
 export type UpdateLogLevel = 'INFO' | 'WARN' | 'ERROR';
 
-const SENSITIVE_HEADER_PATTERN =
-  /\b(authorization|proxy-authorization|cookie|set-cookie)\b\s*[:=].*/gi;
-const SENSITIVE_KEY_VALUE_PATTERN =
-  /\b(token|password|passwd|secret|aas[^\s=]*|session[^\s=]*|api[-_]?key)\b\s*[:=]\s*("[^"]*"|'[^']*'|[^\s;,]+)/gi;
-
-export function redactSensitiveText(text: string): string {
-  return text
-    .replace(SENSITIVE_HEADER_PATTERN, (match) => {
-      const key = match.split(/[:=]/, 1)[0] ?? 'secret';
-      return `${key.trim()}: [REDACTED]`;
-    })
-    .replace(SENSITIVE_KEY_VALUE_PATTERN, '$1=[REDACTED]');
-}
+export { redactSensitiveText };
 
 export function getUpdateLogDirectory() {
   return join(DATA_DIR, 'logs');

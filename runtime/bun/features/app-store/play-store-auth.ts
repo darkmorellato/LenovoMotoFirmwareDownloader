@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import { mkdir, readFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { dirname, join } from 'node:path';
+import { fetchWithTimeout } from '../../../../core/infra/http.ts';
 import type { PlayStoreArch } from '../../../shared/desktop-rpc';
 import {
   buildAuroraDeviceConfig,
@@ -195,7 +196,7 @@ function longDecimalToHex(value: string) {
 }
 
 async function fetchBytes(url: string, init: RequestInit) {
-  const response = await fetch(url, init);
+  const response = await fetchWithTimeout(url, init);
   const body = new Uint8Array(await response.arrayBuffer());
   if (!response.ok) {
     throw new PlayStoreAuthError(`Google Play auth request failed with HTTP ${response.status}.`);
@@ -318,7 +319,7 @@ async function exchangeAasTokenForAuth(options: {
   headers.set('app', 'com.google.android.gms');
   headers.set('device', options.gsfId);
 
-  const response = await fetch(AUTH_URL, {
+  const response = await fetchWithTimeout(AUTH_URL, {
     body,
     headers,
     method: 'POST',
@@ -355,7 +356,7 @@ async function fetchDfeCookie(session: Omit<PlayStoreSession, 'dfeCookie'>) {
     headers.set('X-DFE-Device-Checkin-Consistency-Token', session.deviceConsistencyToken);
   }
 
-  const response = await fetch(TOC_URL, {
+  const response = await fetchWithTimeout(TOC_URL, {
     headers,
     method: 'GET',
   });
@@ -491,11 +492,14 @@ async function fetchDispenserSession(dispenserUrl: string, arch: PlayStoreArch) 
   headers.set('Content-Type', 'application/json');
   headers.set('User-Agent', DISPENSER_USER_AGENT);
 
-  let response = await fetch(`${dispenserUrl}?locale=${encodeURIComponent(DEFAULT_LOCALE)}`, {
-    body: JSON.stringify(buildAuroraDeviceConfig(profile)),
-    headers,
-    method: 'POST',
-  });
+  let response = await fetchWithTimeout(
+    `${dispenserUrl}?locale=${encodeURIComponent(DEFAULT_LOCALE)}`,
+    {
+      body: JSON.stringify(buildAuroraDeviceConfig(profile)),
+      headers,
+      method: 'POST',
+    },
+  );
   let text = await response.text();
   let parsed: unknown;
   try {
@@ -508,10 +512,13 @@ async function fetchDispenserSession(dispenserUrl: string, arch: PlayStoreArch) 
     const fallbackHeaders = new Headers();
     fallbackHeaders.set('Accept', 'application/json');
     fallbackHeaders.set('User-Agent', DISPENSER_USER_AGENT);
-    response = await fetch(`${dispenserUrl}?locale=${encodeURIComponent(DEFAULT_LOCALE)}`, {
-      headers: fallbackHeaders,
-      method: 'GET',
-    });
+    response = await fetchWithTimeout(
+      `${dispenserUrl}?locale=${encodeURIComponent(DEFAULT_LOCALE)}`,
+      {
+        headers: fallbackHeaders,
+        method: 'GET',
+      },
+    );
     text = await response.text();
     try {
       parsed = text ? JSON.parse(text) : {};

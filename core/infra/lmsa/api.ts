@@ -1,7 +1,11 @@
 import { constants as cryptoConstants, publicEncrypt } from 'node:crypto';
+import { getLogger } from '../../common/logger.ts';
 import type { RequestOptions } from '../../common/request-options.ts';
+import { fetchWithTimeout } from '../http.ts';
 import { API_URL, BASE_URL, USER_AGENT } from './constants.ts';
 import { cookieJar, session } from './state.ts';
+
+const log = getLogger('lmsa-api');
 
 const clientVersion = '7.5.5.19';
 const requestLanguage = 'en-US';
@@ -13,7 +17,7 @@ let fingerprintPublicKeyPem: string | null = null;
 async function loadFingerprintPublicKey() {
   if (fingerprintPublicKeyPem) return fingerprintPublicKeyPem;
 
-  const response = await fetch(`${API_URL}${PUBLIC_KEY_PATH}`, {
+  const response = await fetchWithTimeout(`${API_URL}${PUBLIC_KEY_PATH}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -56,7 +60,7 @@ async function createDeviceFingerprint(url: string, authorization: string) {
       Buffer.from(plainText, 'utf8'),
     ).toString('base64');
   } catch (error) {
-    console.warn('[LMSA] Failed to create device fingerprint:', error);
+    log.warn('[LMSA] Failed to create device fingerprint:', error);
     return '';
   }
 }
@@ -108,7 +112,7 @@ function refreshAuth(headers: Headers) {
 }
 
 export async function bootstrapSessionCookie() {
-  const response = await fetch(`${BASE_URL}/lmsa-web/index.jsp`, { redirect: 'manual' });
+  const response = await fetchWithTimeout(`${BASE_URL}/lmsa-web/index.jsp`, { redirect: 'manual' });
   updateCookies(response.headers);
 }
 
@@ -203,7 +207,7 @@ export async function requestApi(
 
   const isGet = (options.method || 'POST').toUpperCase() === 'GET';
 
-  const response = await fetch(url, {
+  const response = await fetchWithTimeout(url, {
     method: options.method || 'POST',
     headers,
     body: buildRequestBody(body, payload, isGet, isFormUrlEncoded),

@@ -2,6 +2,8 @@ import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { extname, join, resolve, sep } from 'node:path';
 import { BrowserView, BrowserWindow, BuildConfig, Updater, Utils } from 'electrobun/bun';
+import { configureLogger, getLogger } from '../../core/common/logger.ts';
+import { DATA_DIR } from '../../core/infra/storage.ts';
 import type {
   DesktopRpcSchema,
   DownloadProgressMessage,
@@ -13,6 +15,9 @@ import {
   queueRuntimeAuthCallbackUrl,
 } from './features/auth/startup-auth-callback.ts';
 import { createRequestHandlers } from './rpc/create-request-handlers.ts';
+
+const log = getLogger('app');
+configureLogger({ filePath: join(DATA_DIR, 'logs', 'app.log') });
 
 const DOWNLOAD_RPC_TIMEOUT_MS = 6 * 60 * 60 * 1000;
 const CEF_VIEW_SERVER_PORT_START = 56000;
@@ -57,7 +62,7 @@ function registerSingleInstancePidFile() {
   try {
     writeFileSync(INSTANCE_PID_PATH, pidValue, 'utf8');
   } catch (error) {
-    console.warn('[AuthCallback] Could not create pid lock file for protocol handoff.', error);
+    log.warn('[AuthCallback] Could not create pid lock file for protocol handoff.', error);
     return;
   }
 
@@ -75,7 +80,7 @@ function registerSingleInstancePidFile() {
 }
 
 if (shouldExitAfterForwardingStartupCallback()) {
-  console.log(
+  log.info(
     '[AuthCallback] Forwarded startup callback to an existing instance. Exiting helper launch.',
   );
   process.exit(0);
@@ -85,7 +90,7 @@ registerSingleInstancePidFile();
 
 // Log all updater status changes to the console for easier remote debugging
 Updater.onStatusChange((entry) => {
-  console.log(`[Updater Status] ${entry.status}: ${entry.message}`, entry.details || '');
+  log.info(`[Updater Status] ${entry.status}: ${entry.message}`, entry.details || '');
 });
 
 let mainWindowRef: BrowserWindow | null = null;
@@ -107,7 +112,7 @@ function handleIncomingOpenUrl(urlValue: string) {
     return;
   }
 
-  console.log('[AuthCallback] Queued runtime callback URL from open-url event.');
+  log.info('[AuthCallback] Queued runtime callback URL from open-url event.');
   mainWindowRef?.maximize?.();
   mainWindowRef?.focus?.();
 }
@@ -214,19 +219,19 @@ function startLinuxCefViewServer() {
         },
       });
 
-      console.log(`[CEF] Serving main view from ${cefViewServer.url.origin}`);
+      log.info(`[CEF] Serving main view from ${cefViewServer.url.origin}`);
       return cefViewServer;
     } catch (error) {
       if ((error as { code?: string }).code === 'EADDRINUSE') {
         continue;
       }
 
-      console.error('[CEF] Failed to start local view server.', error);
+      log.error('[CEF] Failed to start local view server.', error);
       return null;
     }
   }
 
-  console.error('[CEF] No free port available for local view server.');
+  log.error('[CEF] No free port available for local view server.');
   return null;
 }
 
@@ -281,7 +286,7 @@ if (process.platform === 'linux' && requestedLinuxRenderer) {
   } else if (requestedLinuxRenderer === 'cef' && rendererOptions.has('cef')) {
     selectedRenderer = 'cef';
   } else {
-    console.warn(
+    log.warn(
       `[Renderer] Requested '${requestedLinuxRenderer}' is unavailable in this build. Using '${selectedRenderer}'.`,
     );
   }
@@ -376,14 +381,14 @@ if (process.platform === 'win32') {
             user32.symbols.SendMessageW(hwnd, 0x0080, 0, hIcon);
             user32.symbols.SendMessageW(hwnd, 0x0080, 1, hIcon);
           } else {
-            console.error('WINDOW ICON: Failed to load icon image via Win32.');
+            log.error('WINDOW ICON: Failed to load icon image via Win32.');
           }
         } else {
-          console.error('WINDOW ICON: Failed to find window HWND.');
+          log.error('WINDOW ICON: Failed to find window HWND.');
         }
       }, 500);
     } catch (err) {
-      console.error('WINDOW ICON SET ERROR:', err);
+      log.error('WINDOW ICON SET ERROR:', err);
     }
   }
 }

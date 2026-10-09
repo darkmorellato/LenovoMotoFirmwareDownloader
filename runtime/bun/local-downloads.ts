@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import { readdir, stat } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { basename, join, relative } from 'node:path';
+import { fetchWithTimeout } from '../../core/infra/http.ts';
 import { requestApi } from '../../core/infra/lmsa/api.ts';
 import type {
   AttachLocalRecipeResponse,
@@ -26,7 +27,7 @@ import {
 import { assertPathInsideAllowedRoots } from './path-guard.ts';
 
 async function fetchRecipeContent(recipeUrl: string) {
-  const response = await fetch(recipeUrl, {
+  const response = await fetchWithTimeout(recipeUrl, {
     method: 'GET',
   });
   if (!response.ok) {

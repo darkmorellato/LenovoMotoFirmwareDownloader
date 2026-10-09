@@ -7,9 +7,12 @@
  */
 import { existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { getLogger } from '../../../../core/common/logger.ts';
 import type { FrameworkUpdateInfo } from '../../../../core/contracts/desktop/entries.ts';
 import { cancelActiveRescue } from '../rescue/rescue-manager.ts';
 import type { UpdateLogger } from './update-logger.ts';
+
+const log = getLogger('updater');
 
 type ElectrobunUpdater = typeof import('electrobun/bun').Updater;
 
@@ -39,22 +42,22 @@ function escapeBatchPath(pathValue: string) {
 
 export async function applyFrameworkUpdate(logger?: UpdateLogger): Promise<void> {
   logger?.info('Preparing to apply packaged app update. Cleaning up processes...');
-  console.log('[Updater] Preparing to apply update. Cleaning up processes...');
+  log.info('[Updater] Preparing to apply update. Cleaning up processes...');
 
   cancelActiveRescue();
 
   try {
     const { execSync } = await import('node:child_process');
     execSync('adb kill-server', { stdio: 'ignore' });
-    console.log('[Updater] ADB server stopped.');
+    log.info('[Updater] ADB server stopped.');
   } catch {
     // Ignore if adb is not in PATH or not running.
   }
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  console.log(`[Updater] execPath: ${process.execPath}`);
-  console.log(`[Updater] cwd: ${process.cwd()}`);
+  log.info(`[Updater] execPath: ${process.execPath}`);
+  log.info(`[Updater] cwd: ${process.cwd()}`);
 
   const Updater = await loadUpdater();
   await Updater.getLocallocalInfo();
@@ -73,7 +76,7 @@ export async function applyFrameworkUpdate(logger?: UpdateLogger): Promise<void>
     mkdirSync(extractionDir, { recursive: true });
   }
 
-  console.log(`[Updater] Extracting update to ${extractionDir}...`);
+  log.info(`[Updater] Extracting update to ${extractionDir}...`);
   logger?.info('Extracting update tarball', latestTarPath);
   const tarBytes = await Bun.file(latestTarPath).arrayBuffer();
   const archive = new Bun.Archive(tarBytes);
@@ -92,8 +95,8 @@ export async function applyFrameworkUpdate(logger?: UpdateLogger): Promise<void>
   const newAppBundlePath = join(extractionDir, appBundleDir);
   const runningAppBundlePath = join(appDataFolder, 'app');
 
-  console.log(`[Updater] Identified New App Path: ${newAppBundlePath}`);
-  console.log(`[Updater] Target App Path: ${runningAppBundlePath}`);
+  log.info(`[Updater] Identified New App Path: ${newAppBundlePath}`);
+  log.info(`[Updater] Target App Path: ${runningAppBundlePath}`);
 
   const parentDir = appDataFolder;
   const updateScriptPath = join(parentDir, 'update.bat');
@@ -167,7 +170,7 @@ echo Update script finished at %DATE% %TIME%. >> "${logPathWin}"
   logger?.info('Update script written', updateScriptPath);
 
   const { spawn } = await import('node:child_process');
-  console.log(`[Updater] Launching update script: ${updateScriptPath}`);
+  log.info(`[Updater] Launching update script: ${updateScriptPath}`);
 
   const child = spawn('cmd.exe', ['/c', 'start', '/min', 'cmd.exe', '/c', updateScriptPath], {
     detached: true,
@@ -175,7 +178,7 @@ echo Update script finished at %DATE% %TIME%. >> "${logPathWin}"
   });
   child.unref();
 
-  console.log('[Updater] Update script launched. Quitting app in 1s...');
+  log.info('[Updater] Update script launched. Quitting app in 1s...');
   logger?.info('Update script launched; application will exit to let it run.');
   setTimeout(() => {
     process.exit(0);

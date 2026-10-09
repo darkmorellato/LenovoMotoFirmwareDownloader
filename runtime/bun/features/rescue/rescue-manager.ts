@@ -10,6 +10,7 @@
  */
 import { mkdir, stat } from 'node:fs/promises';
 import { basename } from 'node:path';
+import { getLogger } from '../../../../core/common/logger.ts';
 import type {
   DownloadProgressMessage,
   RescueFlashTransport,
@@ -38,6 +39,8 @@ import {
   type RescueProgressEmitter,
 } from './rescue-active-tracker.ts';
 import { ensureDeviceReadiness } from './rescue-device-readiness.ts';
+
+const log = getLogger('rescue');
 
 // Re-export public API from submodules
 export { cancelActiveRescue } from './rescue-active-tracker.ts';
@@ -332,11 +335,11 @@ export async function rescueLiteFirmwareWithProgress(
       stepLabel: `Using rescue command source: ${commandSource}`,
     });
     if (isDryRun) {
-      console.log(
+      log.info(
         `[RescueLite:dry-run] ${downloadId} source=${commandSource} commands=${commandPlan.length}`,
       );
       for (const command of commandPlan) {
-        console.log(`[RescueLite:dry-run] ${command}`);
+        log.info(`[RescueLite:dry-run] ${command}`);
       }
 
       for (let index = 0; index < commands.length; index += 1) {
