@@ -118,11 +118,11 @@ async function main() {
       .replace(/"/g, '\\"')
       .replace(/\/python3$/, '')}:$PATH`,
     'python3 --version',
-    `curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz -o /tmp/node.tar.xz`,
+    `curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz -o /tmp/node-v${NODE_VERSION}-linux-x64.tar.xz`,
     `curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/SHASUMS256.txt -o /tmp/SHASUMS256.txt`,
     `grep " node-v${NODE_VERSION}-linux-x64.tar.xz$" /tmp/SHASUMS256.txt | (cd /tmp && sha256sum -c -)`,
     'mkdir -p /opt/node',
-    'tar -xJf /tmp/node.tar.xz -C /opt/node --strip-components=1',
+    `tar -xJf /tmp/node-v${NODE_VERSION}-linux-x64.tar.xz -C /opt/node --strip-components=1`,
     'export PATH=/opt/node/bin:$PATH',
     'export npm_config_python=$(command -v python3)',
     'node -v',
