@@ -13,6 +13,7 @@ import {
   resetConnectedDeviceConnection,
   waitForConnectedDeviceAvailability,
 } from './device/connected-device-facade.ts';
+import { readFastbootDeviceInfo } from './features/rescue/connected/fastboot-device-info.ts';
 
 type LmsaPayloadValue = object | string | number | boolean | null;
 
@@ -165,6 +166,13 @@ export async function lookupConnectedDeviceFirmware(): Promise<ConnectedLookupRe
         adbAvailable: connectedDevice.adbAvailable,
       });
     } catch (secondError) {
+      // No ADB device: the phone may already be in Fastboot (bootloader) mode.
+      const fastbootDevice = await readFastbootDeviceInfo();
+      if (fastbootDevice) {
+        return lookupConnectedDeviceFirmwareFromDeviceInfo(fastbootDevice, {
+          adbAvailable: false,
+        });
+      }
       const secondDetail = secondError instanceof Error ? secondError.message : String(secondError);
       throw new Error(secondDetail || firstDetail || 'Connected lookup via Tango ADB failed.');
     }
