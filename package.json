@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.14",
-    "@types/archiver": "^7.0.0",
+    "@types/archiver": "^8.0.0",
     "@types/bun": "^1.4.2",
     "typescript": "^6.0.3",
     "rcedit": "^5.0.2"
@@ -50,7 +50,7 @@
     "@yume-chan/adb-server-node-tcp": "^2.5.2",
     "apie": "github:enigma550/apie#242da8a",
     "apkmirror-downloader": "^2.0.11",
-    "archiver": "^7.0.1",
+    "archiver": "^8.0.0",
     "electrobun": "^1.18.1",
     "fastboot-bun-ts": "github:enigma550/fastboot-bun-ts#21b2313",
     "fflate": "^0.8.3",
