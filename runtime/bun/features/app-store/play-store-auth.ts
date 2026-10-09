@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import { mkdir, readFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { dirname, join } from 'node:path';
+import { createSingleFlight } from '../../../../core/common/single-flight.ts';
 import { fetchWithTimeout } from '../../../../core/infra/http.ts';
 import type { PlayStoreArch } from '../../../shared/desktop-rpc';
 import {
@@ -60,6 +61,8 @@ const DISPENSER_USER_AGENT = 'com.aurora.store-4.8.2-74';
 const DEFAULT_LOCALE = 'en-US';
 
 const sessionCache = new Map<PlayStoreArch, PlayStoreSession>();
+// Collapses concurrent session builds (check-in + token exchange) into one.
+const sessionFlight = createSingleFlight<PlayStoreSession>();
 let nextAccountIndex = 0;
 
 function toRequestBody(bytes: Uint8Array) {
@@ -581,40 +584,49 @@ export async function getPlayStoreSession(arch: PlayStoreArch, forceRefresh = fa
     }
   }
 
-  const profiles = await getPlayStoreAuthProfiles();
-  let lastError = '';
-  if (profiles.accounts.length > 0) {
-    for (let offset = 0; offset < profiles.accounts.length; offset += 1) {
-      const index = (nextAccountIndex + offset) % profiles.accounts.length;
-      const account = profiles.accounts[index];
-      if (!account) {
-        continue;
+  return sessionFlight.run(`session:${arch}`, async () => {
+    if (!forceRefresh) {
+      const cached = sessionCache.get(arch);
+      if (cached) {
+        return cached;
       }
+    }
 
+    const profiles = await getPlayStoreAuthProfiles();
+    let lastError = '';
+    if (profiles.accounts.length > 0) {
+      for (let offset = 0; offset < profiles.accounts.length; offset += 1) {
+        const index = (nextAccountIndex + offset) % profiles.accounts.length;
+        const account = profiles.accounts[index];
+        if (!account) {
+          continue;
+        }
+
+        try {
+          const session = await buildPlayStoreSession(account, arch);
+          nextAccountIndex = (index + 1) % profiles.accounts.length;
+          sessionCache.set(arch, session);
+          return session;
+        } catch (error) {
+          lastError = error instanceof Error ? error.message : String(error);
+        }
+      }
+    }
+
+    for (const dispenserUrl of profiles.dispensers) {
       try {
-        const session = await buildPlayStoreSession(account, arch);
-        nextAccountIndex = (index + 1) % profiles.accounts.length;
+        const session = await fetchDispenserSession(dispenserUrl, arch);
         sessionCache.set(arch, session);
         return session;
       } catch (error) {
         lastError = error instanceof Error ? error.message : String(error);
       }
     }
-  }
 
-  for (const dispenserUrl of profiles.dispensers) {
-    try {
-      const session = await fetchDispenserSession(dispenserUrl, arch);
-      sessionCache.set(arch, session);
-      return session;
-    } catch (error) {
-      lastError = error instanceof Error ? error.message : String(error);
-    }
-  }
-
-  throw new PlayStoreAuthError(
-    lastError || profiles.error || 'No Aurora token dispenser or auth profile is available.',
-  );
+    throw new PlayStoreAuthError(
+      lastError || profiles.error || 'No Aurora token dispenser or auth profile is available.',
+    );
+  });
 }
 
 export async function ensureDefaultAuroraProfilesDirectory() {

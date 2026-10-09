@@ -115,20 +115,27 @@ verificadas neste ambiente (sem GUI para inspeção visual; builds nativos exige
 podman/toolchains). Foram mantidos como épicas planejadas para não quebrar a app
 às cegas:
 
-1. **Tema por CSS variables** — converter os ~1.664 bindings `[class.*]` de tema
-   para tokens semânticos (`bg-surface`, `text-fg-dim`…). Refatoração mecânica em
-   ~35 templates; exige verificação visual tela a tela.
-2. **`usb` 3.x (Rust)** e **ffmpeg 8** — trocas de toolchain nativo (o addon USB é
-   compilado em container com libusb; o `ffmpeg-static` embute ffmpeg 6.1.1).
-   `usb` já está em 2.19.1 (CVEs do libusb corrigidos).
-3. **DI/portas em `core/features` (AuthGateway/ConfigStore)** e quebra dos god
-   files restantes (`play-store.ts`, `rescue-manager.ts`,
-   `backup-restore.workflow.ts`) — refatorações amplas que alteram comportamento
-   de fluxos críticos (flash/backup); executar em branches dedicadas com testes
-   de integração.
-4. **i18n residual** — rótulos de `download-utils.ts` (labels de cancelamento/
-   título de dialog de rescue) e ~15 strings de `workflow`/templates menores.
-5. **Lazy loading/rotas e `@defer`** para `ng-terminal` (bundle inicial de 1 MB).
+1. **Tema por CSS variables** — ✅ **CONCLUÍDO** (2026-10-09, validado visualmente
+   pelo usuário). Tokens semânticos em `styles.css`, ~1.100 bindings removidos.
+2. **`usb` 3.x (Rust)** — ⛔ **BLOQUEADO nos forks**: `fastboot-bun-ts` e `apie`
+   (forks git pinados) declaram `usb: ^2.17.0`; subir para 3.x exige atualizar os
+   dois forks para `usb@3` primeiro (e adaptar a API se necessário). O app usa
+   apenas o export `WebUSB` de `usb`. **Estado atual seguro**: `usb@2.19.1`
+   corrige os CVEs do libusb (verificado: addon nativo compila com o libusb
+   corrigido no container).
+3. **`ffmpeg` 8** — ⚖️ **Decisão de trust**: o `ffmpeg-static` (ffmpeg 6.1.1) vem
+   de release npm verificada; builds estáticos de ffmpeg 8 são distribuídos por
+   terceiros sem assinatura forte (novos vendors = nova superfície de supply
+   chain). O `prepare-ffmpeg` **já prefere ffmpeg do sistema** — instalar o
+   ffmpeg 8 no PATH é o caminho recomendado e suportado hoje.
+4. **DI/portas em `core/features`** — 🟡 **parcialmente concluído**: porta de
+   configuração + relógio implementada em `oauth-context-store.ts` (padrão para
+   replicar em `model-catalog.ts`/`catalog-manual-match.ts`); quebra dos god
+   files restantes (`play-store.ts` 1.108 linhas, `backup-restore.workflow.ts`)
+   é refatoração cosmética restante.
+5. **i18n residual** — ✅ **CONCLUÍDO** (labels de download/rescue com parâmetros
+   no `translate()`; 309 chaves em paridade PT/EN).
+6. **Lazy loading/rotas e `@defer`** para `ng-terminal` (bundle inicial de 1 MB).
 
 ### Verificação final executada
 - `bun run check` (arch + tsc root/web + biome) — ✅
