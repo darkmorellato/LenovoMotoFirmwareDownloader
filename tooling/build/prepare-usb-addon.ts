@@ -15,6 +15,19 @@ const CONTAINER_IMAGE = 'quay.io/pypa/manylinux2014_x86_64';
 const NODE_VERSION = '16.20.2';
 const PYTHON_PATH = '/opt/python/cp311-cp311/bin/python3';
 
+type ContainerRuntime = 'podman' | 'docker';
+
+/** Prefers podman (rootless, used in CI) and falls back to docker. */
+export function resolveContainerRuntime(): ContainerRuntime | null {
+  if (commandExists('podman', REPO_ROOT)) {
+    return 'podman';
+  }
+  if (commandExists('docker', REPO_ROOT)) {
+    return 'docker';
+  }
+  return null;
+}
+
 type ExistingMetadata = {
   usbVersion?: string;
   buildFlavor?: string;
@@ -61,13 +74,14 @@ async function main() {
     return;
   }
 
-  if (!commandExists('podman', REPO_ROOT)) {
-    console.log('[USB] Skipping legacy addon build because podman is unavailable.');
+  const containerRuntime = resolveContainerRuntime();
+  if (!containerRuntime) {
+    console.log('[USB] Skipping legacy addon build because podman/docker is unavailable.');
     return;
   }
 
   const packageJson = await readJsonFile<{ version: string }>(USB_PACKAGE_JSON_PATH);
-  const buildFlavor = `podman:${CONTAINER_IMAGE}:node-${NODE_VERSION}:no-udev`;
+  const buildFlavor = `${containerRuntime}:${CONTAINER_IMAGE}:node-${NODE_VERSION}:no-udev`;
   const existingMetadata = await readExistingMetadata();
   const metadataMatches =
     existingMetadata?.usbVersion === packageJson.version &&
@@ -136,7 +150,7 @@ async function main() {
       '-lc',
       containerScript,
     ],
-    command: 'podman',
+    command: containerRuntime,
     cwd: REPO_ROOT,
     label: 'USB',
   });
