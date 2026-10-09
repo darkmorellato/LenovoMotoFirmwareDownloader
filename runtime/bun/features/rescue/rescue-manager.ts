@@ -24,8 +24,10 @@ import {
   findReusableFirmwarePackagePath,
   getDownloadDirectory,
   getExtractDirForPackagePath,
+  getRescueExtractDirectoryRoot,
   hasUsableExtractedRescueScripts,
 } from '../../firmware-package-utils.ts';
+import { assertPathInsideAllowedRoots } from '../../path-guard.ts';
 import { runRescueCommandPlan } from './commands/run-rescue-command-plan';
 import { buildRescueCommandPlan } from './facade/rescue-command-plan-facade.ts';
 import { type RescueRecipeHints, resolveRescueRecipeHints } from './recipe-resolver.ts';
@@ -113,10 +115,15 @@ export async function rescueLiteFirmwareWithProgress(
     let reusedExtraction = false;
 
     if (payload.localPackagePath) {
-      if (!(await Bun.file(payload.localPackagePath).exists())) {
-        throw new Error(`Local firmware package not found: ${payload.localPackagePath}`);
+      const localPackagePath = assertPathInsideAllowedRoots(
+        payload.localPackagePath,
+        [getDownloadDirectory()],
+        'local firmware package path',
+      );
+      if (!(await Bun.file(localPackagePath).exists())) {
+        throw new Error(`Local firmware package not found: ${localPackagePath}`);
       }
-      savePath = payload.localPackagePath;
+      savePath = localPackagePath;
       const packageStats = await stat(savePath);
       bytesDownloaded = packageStats.size;
       totalBytes = packageStats.size;
@@ -239,8 +246,13 @@ export async function rescueLiteFirmwareWithProgress(
     }
 
     // Package is ready. We can now proceed to extraction or command processing.
-    const linkedExtractDir =
-      payload.localExtractedDir?.trim() || getExtractDirForPackagePath(savePath);
+    const linkedExtractDir = payload.localExtractedDir?.trim()
+      ? assertPathInsideAllowedRoots(
+          payload.localExtractedDir,
+          [getRescueExtractDirectoryRoot()],
+          'extracted firmware directory',
+        )
+      : getExtractDirForPackagePath(savePath);
     workDir = linkedExtractDir;
 
     if (hasUsableExtractedRescueScripts(workDir)) {

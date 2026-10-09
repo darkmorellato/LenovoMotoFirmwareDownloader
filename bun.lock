@@ -5,26 +5,26 @@
     "": {
       "name": "lenovo_moto_firmware_downloader",
       "dependencies": {
-        "@types/archiver": "^7.0.0",
-        "@yume-chan/adb": "^2.6.0",
+        "@yume-chan/adb": "^2.6.4",
         "@yume-chan/adb-credential-web": "^2.1.0",
         "@yume-chan/adb-daemon-webusb": "^2.3.2",
         "@yume-chan/adb-server-node-tcp": "^2.5.2",
         "apie": "github:enigma550/apie#242da8a",
-        "apkmirror-downloader": "^2.0.10",
+        "apkmirror-downloader": "^2.0.11",
         "archiver": "^7.0.1",
         "electrobun": "^1.16.0",
         "fastboot-bun-ts": "github:enigma550/fastboot-bun-ts#21b2313",
-        "fflate": "^0.8.2",
+        "fflate": "^0.8.3",
         "ffmpeg-static": "^5.3.0",
         "google-play-proto": "^1.3.1",
-        "protobufjs": "^8.0.3",
-        "spd-tool-bun": "github:enigma550/spd-tool-bun",
-        "usb": "^2.17.0",
+        "protobufjs": "^8.8.0",
+        "spd-tool-bun": "github:enigma550/spd-tool-bun#24c5f83",
+        "usb": "^2.19.1",
       },
       "devDependencies": {
         "@biomejs/biome": "^2.4.14",
-        "@types/bun": "^1.3.13",
+        "@types/archiver": "^7.0.0",
+        "@types/bun": "^1.4.2",
         "rcedit": "^5.0.2",
       },
       "peerDependencies": {
@@ -119,7 +119,7 @@
 
     "@types/archiver": ["@types/archiver@7.0.0", "", { "dependencies": { "@types/readdir-glob": "*" } }, "sha512-/3vwGwx9n+mCQdYZ2IKGGHEFL30I96UgBlk8EtRDDFQ9uxM1l4O5Ci6r00EMAkiDaTqD9DQ6nVrWRICnBPtzzg=="],
 
-    "@types/bun": ["@types/bun@1.3.13", "", { "dependencies": { "bun-types": "1.3.13" } }, "sha512-9fqXWk5YIHGGnUau9TEi+qdlTYDAnOj+xLCmSTwXfAIqXr2x4tytJb43E9uCvt09zJURKXwAtkoH4nLQfzeTXw=="],
+    "@types/bun": ["@types/bun@1.4.2", "", { "dependencies": { "bun-types": "1.4.2" } }, "sha512-GimotNn7+ZV0uVArItBbriZsR1oNf0+WTzPkdcFrzShI7k2norL0uzEaJT8T33dWr7O/c9ZDuAFQrctKCi72oQ=="],
 
     "@types/node": ["@types/node@25.3.5", "", { "dependencies": { "undici-types": "~7.18.0" } }, "sha512-oX8xrhvpiyRCQkG1MFchB09f+cXftgIXb3a7UUa4Y3wpmZPw5tyZGTLWhlESOLq1Rq6oDlc8npVU2/9xiCuXMA=="],
 
@@ -127,7 +127,7 @@
 
     "@types/w3c-web-usb": ["@types/w3c-web-usb@1.0.13", "", {}, "sha512-N2nSl3Xsx8mRHZBvMSdNGtzMyeleTvtlEw+ujujgXalPqOjIA6UtrqcB6OzyUjkTbDm3J7P1RNK1lgoO7jxtsw=="],
 
-    "@yume-chan/adb": ["@yume-chan/adb@2.6.0", "", { "dependencies": { "@yume-chan/async": "^4.1.3", "@yume-chan/event": "^2.0.0", "@yume-chan/no-data-view": "^2.0.0", "@yume-chan/stream-extra": "^2.5.3", "@yume-chan/struct": "^2.3.2" } }, "sha512-1bM4/YwLUr7UHkvC3pe5fIPNNIgOQ97nUIvC4ooPZwRKG9pyHG39EihivZVmu3pm28XwHSGh5PC3sQi4ycoUXA=="],
+    "@yume-chan/adb": ["@yume-chan/adb@2.6.4", "", { "dependencies": { "@yume-chan/async": "^4.1.3", "@yume-chan/event": "^2.0.0", "@yume-chan/no-data-view": "^2.0.0", "@yume-chan/stream-extra": "^2.6.1", "@yume-chan/struct": "^2.3.2" } }, "sha512-aaN21ZOLjWW1nC09C21f0yQkCqxkuMWMqheryGEbmGLPhuzIyOhTurJK8cXh5ZnQ+ptdKBexqvoG6zYoul9XPA=="],
 
     "@yume-chan/adb-credential-web": ["@yume-chan/adb-credential-web@2.1.0", "", { "dependencies": { "@yume-chan/adb": "^2.1.0" } }, "sha512-ps5XWt+xxm6Mi9eF80ePprPJ/uRFMhfR437betQE8hixrjdZpkZgMlqZU6GlnuebMi0djrbP8GWB49jJekJVYA=="],
 
@@ -141,7 +141,7 @@
 
     "@yume-chan/no-data-view": ["@yume-chan/no-data-view@2.0.0", "", {}, "sha512-0GRJrrt6wtZlbiE92jocHOnaAvjQ+Y7xwwhwOPqLkwf90Kj1JIHJ5Zh4wJVQSQIkzfRSOpM+jeEQdC2K15snlA=="],
 
-    "@yume-chan/stream-extra": ["@yume-chan/stream-extra@2.5.3", "", { "dependencies": { "@yume-chan/async": "^4.1.3", "@yume-chan/struct": "^2.3.2" } }, "sha512-eRZcl0+SMIt/cAp9UZfBbh74mYe+DZf5l3C6eX8zYYA1cx71nZce2NCf8Vp+/XNw3UtPaEz6IiES9o7Ax5xJdg=="],
+    "@yume-chan/stream-extra": ["@yume-chan/stream-extra@2.6.1", "", { "dependencies": { "@yume-chan/async": "^4.1.3", "@yume-chan/struct": "^2.3.2" } }, "sha512-GQ+Q0SQf9p6Fl7ZK0UO5vHVGBJgkTJm/WXKurUMpjHQV4VUpjZ2hrQ744aCfT7WwSol7Bz/uEiXWmk240Hr/hg=="],
 
     "@yume-chan/struct": ["@yume-chan/struct@2.3.2", "", { "dependencies": { "@yume-chan/async": "^4.1.3", "@yume-chan/no-data-view": "^2.0.0" } }, "sha512-afoCnSKV+5HRK7e4innVd9YTYDyNWdjA1CVQa1j8rWYnmr7HGZfdkHMQr+AESLk6GxWFMzOIPQIG6nYOTGMFIw=="],
 
@@ -155,7 +155,7 @@
 
     "apie": ["apie@github:enigma550/apie#242da8a", { "dependencies": { "@yume-chan/adb": "^2.5.1", "@yume-chan/adb-daemon-webusb": "^2.3.2", "@yume-chan/adb-server-node-tcp": "^2.5.2", "sharp": "^0.34.5", "unzipit": "^1.4.3", "usb": "^2.17.0" }, "peerDependencies": { "typescript": "^5.9.3" }, "bin": { "apie": "./src/cli.ts" } }, "enigma550-APIE-242da8a", "sha512-wFKRC6dqeNlgMXRK5ilpc2FiQ3HTXiXGgMlbRPwJKWRfD2s08HdL0+o8ll0nrw2HdFxvgyCFbXsu/7SfpjoE6g=="],
 
-    "apkmirror-downloader": ["apkmirror-downloader@2.0.10", "", { "dependencies": { "cheerio": "^1.0.0-rc.12", "ts-pattern": "^5.2.0" }, "peerDependencies": { "typescript": "^5.5.4" }, "bin": { "apkmd": "dist/cli.js" } }, "sha512-jyIzdbvyeFVON8+y7Rzmvu9DqXE71NM9nMrxOuxKRzmRwbP3dAfB/pYEj7f4uXkj5CdS91t4B3vyZ1nthjHMMQ=="],
+    "apkmirror-downloader": ["apkmirror-downloader@2.0.11", "", { "dependencies": { "cheerio": "^1.0.0-rc.12", "ts-pattern": "^5.2.0" }, "peerDependencies": { "typescript": "^5.5.4" }, "bin": { "apkmd": "dist/cli.js" } }, "sha512-yLkngpYUyX/vX2EeJHKLIHTsW0xUxpiNZyfNLjIJjJpC2j7wGChXXds1U1TphHqUo85+iuFe8PsD/DRjJGfR5Q=="],
 
     "archiver": ["archiver@7.0.1", "", { "dependencies": { "archiver-utils": "^5.0.2", "async": "^3.2.4", "buffer-crc32": "^1.0.0", "readable-stream": "^4.0.0", "readdir-glob": "^1.1.2", "tar-stream": "^3.0.0", "zip-stream": "^6.0.1" } }, "sha512-ZcbTaIqJOfCc03QwD468Unz/5Ir8ATtvAHsK+FdXbDIbGfihqh9mrvdcYunQzqn4HrvWWaFyaxJhGZagaJJpPQ=="],
 
@@ -195,7 +195,7 @@
 
     "buffer-from": ["buffer-from@1.1.2", "", {}, "sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ=="],
 
-    "bun-types": ["bun-types@1.3.13", "", { "dependencies": { "@types/node": "*" } }, "sha512-QXKeHLlOLqQX9LgYaHJfzdBaV21T63HhFJnvuRCcjZiaUDpbs5ED1MgxbMra71CsryN/1dAoXuJJJwIv/2drVA=="],
+    "bun-types": ["bun-types@1.4.2", "", { "dependencies": { "@types/node": "*" } }, "sha512-bxV1FgK7yBIzjRe5zBozIM4Bem11ZJcCXSrjWRG3YWLt8yFDePu4cLjpebO8OvPeIE9trbyPF4fuj3Cia4Fj3w=="],
 
     "caseless": ["caseless@0.12.0", "", {}, "sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw=="],
 
@@ -275,7 +275,7 @@
 
     "fastboot-bun-ts": ["fastboot-bun-ts@github:enigma550/fastboot-bun-ts#21b2313", { "dependencies": { "effect": "^3.21.0", "usb": "^2.17.0" }, "peerDependencies": { "typescript": "^5" }, "bin": { "fastboot-bt": "./apps/fastboot/src/cli.ts" } }, "enigma550-fastboot-bun-ts-21b2313", "sha512-315W6QtclxdgnvLGnfT+4xRsGp2peqBab4fdNbkPeRsIOBuKS76L3z0k+ZhTvo2hqsWejSKu/t6qkYdGS4X0FQ=="],
 
-    "fflate": ["fflate@0.8.2", "", {}, "sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A=="],
+    "fflate": ["fflate@0.8.3", "", {}, "sha512-tbZNuJrLwGUp3zshBtdy4W+ORxZuIh8a5ilyIEQDC5rY1f3U20JMry0Ll3WBzU58EZKsEuJFXhb5gwv8CsPvgA=="],
 
     "ffmpeg-static": ["ffmpeg-static@5.3.0", "", { "dependencies": { "@derhuerst/http-basic": "^8.2.0", "env-paths": "^2.2.0", "https-proxy-agent": "^5.0.0", "progress": "^2.0.3" } }, "sha512-H+K6sW6TiIX6VGend0KQwthe+kaceeH/luE8dIZyOP35ik7ahYojDuqlTV1bOrtEwl01sy2HFNGQfi5IDJvotg=="],
 
@@ -373,7 +373,7 @@
 
     "progress": ["progress@2.0.3", "", {}, "sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA=="],
 
-    "protobufjs": ["protobufjs@8.0.3", "", { "dependencies": { "@types/node": ">=13.7.0", "long": "^5.0.0" } }, "sha512-LBYnMWkKLB8fE/ljROPDbCl7mgLSlI+oBe1fAAr5MTqFg4TIi0tYrVVurJvQggOjnUYMQtEZBjrej59ojMNTHQ=="],
+    "protobufjs": ["protobufjs@8.8.0", "", { "dependencies": { "long": "^5.3.2" } }, "sha512-N3xhQ5yyBx3vQq4gubBfASzYhJGNzeDbjqBpu61g7UVylsN/qyffU96TKWD3GbbLOKF82VGNRNvv1+BFgE31Eg=="],
 
     "proxy-agent": ["proxy-agent@6.5.0", "", { "dependencies": { "agent-base": "^7.1.2", "debug": "^4.3.4", "http-proxy-agent": "^7.0.1", "https-proxy-agent": "^7.0.6", "lru-cache": "^7.14.1", "pac-proxy-agent": "^7.1.0", "proxy-from-env": "^1.1.0", "socks-proxy-agent": "^8.0.5" } }, "sha512-TmatMXdr2KlRiA2CyDu8GqR8EjahTG3aY3nXjdzFyoZbmB8hrBsTyMezhULIXKnC0jpfjlmiZ3+EaCzoInSu/A=="],
 
@@ -445,7 +445,7 @@
 
     "unzipit": ["unzipit@1.4.3", "", { "dependencies": { "uzip-module": "^1.0.2" } }, "sha512-gsq2PdJIWWGhx5kcdWStvNWit9FVdTewm4SEG7gFskWs+XCVaULt9+BwuoBtJiRE8eo3L1IPAOrbByNLtLtIlg=="],
 
-    "usb": ["usb@2.17.0", "", { "dependencies": { "@types/w3c-web-usb": "^1.0.6", "node-addon-api": "^8.0.0", "node-gyp-build": "^4.5.0" } }, "sha512-UuFgrlglgDn5ll6d5l7kl3nDb2Yx43qLUGcDq+7UNLZLtbNug0HZBb2Xodhgx2JZB1LqvU+dOGqLEeYUeZqsHg=="],
+    "usb": ["usb@2.19.1", "", { "dependencies": { "@types/w3c-web-usb": "^1.0.6", "node-addon-api": "^8.0.0", "node-gyp-build": "^4.5.0" } }, "sha512-fjVddzu00GFc1Z5fd5+zuZrqylsfuBbmKKygx3rbIS9w5Nh3ddGVWDHkPBQ/BbB3PVEp6kdsZfX9WXhlsRdPDQ=="],
 
     "util-deprecate": ["util-deprecate@1.0.2", "", {}, "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="],
 

@@ -31,7 +31,7 @@ on:
         default: ""
         type: string
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -90,7 +90,7 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: "1.4.2"
 
       - name: Resolve Version
         id: resolve
@@ -126,17 +126,17 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: "1.4.2"
 
       - name: Install root dependencies
         shell: bash
-        run: bun install
+        run: bun install --frozen-lockfile
 
       - name: Install web dependencies
         shell: bash
         run: |
           cd web
-          bun install
+          bun install --frozen-lockfile
 
       - name: Install Linux packaging tools
         if: runner.os == 'Linux'
@@ -318,6 +318,8 @@ jobs:
 
   release:
     name: Publish GitHub Release
+    permissions:
+      contents: write
     if: ${{ needs.resolve-build-options.outputs.publishRelease == 'true' }}
     needs: [resolve-build-options, build, resolve-version]
     runs-on: ubuntu-latest
@@ -328,7 +330,7 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: "1.4.2"
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4

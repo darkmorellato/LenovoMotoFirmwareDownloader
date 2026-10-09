@@ -1,0 +1,98 @@
+# Auditoria Técnica — LMFD (Lenovo Moto Firmware Downloader)
+
+**Data:** 2026-10-09 · **Escopo:** `core/`, `runtime/`, `web/`, `tooling/`, CI, dependências, `update.sh`
+**Stack:** Bun + Electrobun (webview) · Angular 21 + Tailwind 4 · TypeScript 5.9 · Biome · GitHub Actions (5 plataformas)
+
+## Veredito geral
+
+Base arquitetural **acima da média** para apps desktop: camadas explícitas com checagem automática
+(`tooling/arch/*`), RPC tipado centralizado, TypeScript estrito, zero `any`/`@ts-ignore`/TODO.
+Problemas concentrados em: (1) **vulnerabilidades de runtime exploráveis via RPC** (leitura/exclusão
+arbitrária de arquivos, payload não validado), (2) **supply chain** (deps git não pinadas, binários sem
+checksum, scripts remotos flutuantes executados no build), (3) **zero testes de frontend** e ~5% de
+cobertura de backend, (4) dívida técnica em arquivos god e ~1.664 bindings condicionais de tema.
+
+## 1. Arquitetura
+
+- ✅ Fronteiras de camada verificadas por ferramenta e passando; `core/domain` puro; contrato RPC centralizado.
+- ⚠️ Alto — features acopladas a infra sem DI (`core/features/auth/login.ts:3-5` usa singletons mutáveis).
+- ⚠️ Alto — drift entre `DesktopApi` (`core/contracts/desktop/requests.ts`) e `DesktopRpcSchema`
+  (`runtime/shared/desktop-rpc/schema.ts`): 3 métodos registrados sem entrada no schema; sem contrato versionado.
+- ⚠️ Alto — orquestrador de self-update de 145 linhas dentro do factory de handlers
+  (`runtime/bun/features/system/rpc/index.ts:93-237`) com `.bat` gerado por interpolação sem escaping.
+- ⚠️ Médio — checker de camadas não impõe subcamadas do `core` e usa regex em vez de TS compiler API.
+- ⚠️ Médio — god files: `play-store.ts` (1.108), `backup-restore.workflow.ts` (1.187),
+  `backup-restore-workspace.component.html` (1.694), `rescueLiteFirmwareWithProgress` (453).
+
+## 2. Segurança
+
+### Runtime
+| # | Sev. | Achado | Evidência |
+|---|---|---|---|
+| S1 | Crítico | Leitura arbitrária de arquivos via RPC (`readLocalFileContent`) | `runtime/bun/local-downloads.ts:261-310` |
+| S2 | Crítico | Exclusão arbitrária via RPC (`deleteLocalFile`) sem confinamento de path | `runtime/bun/local-downloads.ts:382-404` |
+| S3 | Crítico | Zero validação de payload nos handlers RPC (destructure direto) | `runtime/bun/features/*/rpc/index.ts` |
+| S4 | Alto | Path traversal em restore de backup (`snapshotId` sem `basename()`) | `connected-backups-restore.ts:227` |
+| S5 | Alto | `openUrl` sem allowlist de esquema (`rundll32`/`xdg-open` com URL crua) | `runtime/bun/browser.ts:10-56` |
+| S6 | Alto | JWT/cookies OAuth e AAS tokens em plaintext | `core/infra/config.ts:18-21` |
+| S7 | Alto | Token OAuth vazando em `console.log` de produção | `core/features/auth/login.ts:252,304,421` |
+| S8 | Alto | Self-update sem verificação de integridade; `taskkill` global; `process.exit` sem handshake | `system/rpc/index.ts:93-237` |
+
+### Supply chain / build
+| # | Sev. | Achado |
+|---|---|---|
+| S9 | Alto | `protobufjs@8.0.3` com 3 CVEs de 2026 (fix em 8.6.6+) |
+| S10 | Alto | `usb@2.17.0` embute `libusb 1.0.29` com 2 CVEs (fix em 2.19.1) |
+| S11 | Alto | Scripts remotos não pinados executados no build (`raw.githubusercontent.com/.../main`); binários sem checksum; releases sem SHA256SUMS |
+| S12 | Alto | `spd-tool-bun` git dep **sem commit pinado** no manifest |
+| S13 | Médio | Canais stable/canary disputam `releases/latest` |
+| S14 | Médio | CI sem `--frozen-lockfile`, ações por tag flutuante, `permissions` global write, sem job de qualidade |
+
+## 3. Dependências — destaques
+
+| Dependência | Hoje | Ação |
+|---|---|---|
+| `protobufjs` | 8.0.3 | **↑ 8.8.0 (3 CVEs)** |
+| `usb` | 2.17.0 | **↑ 2.19.1 (2 CVEs)**; 3.x (Rust) depois |
+| `spd-tool-bun` | git sem pin | **pinar commit** |
+| `electrobun` | 1.16.0 | ↑ 1.18.x; planejar 2.x |
+| `google-play-proto` (parado ~2015) | 1.3.1 | vendorizar `.proto` |
+| `rcedit` (depreciado) | 5.0.2 | avaliar `resedit` |
+| `@angular/*` | 21.2.11 | ↑ 21.2.25 (patch LTS); 22 exige TS ≥6.0 |
+| `archiver` | 7.0.1 | ↑ 8.x com refatoração |
+
+## 4. Código, UX e acessibilidade
+
+- Backend: `run*.ts` ~70 linhas duplicadas; `uniquePaths` copiado 4×; tipos RPC duplicados; dead code 416;
+  `fetch` sem timeout em 5 pontos; TOCTOU em download; race em `getPlayStoreSession`.
+- Frontend: ~1.664 bindings `[class.*]` para tema (tokens `@theme` existem e não são usados); 13 componentes
+  sem OnPush; `TranslatePipe` impuro; funções no template; zero rotas/lazy-loading.
+- A11y: 4 modais sem `role="dialog"`/focus-trap/Escape; zero `aria-live`; cards `<article (click)>` sem teclado.
+- i18n: dicionários paritários (163 chaves), ~40% das strings hardcoded; 1 chave indefinida
+  (`FIRMWARE.DRY_RUN_PROGRESS`); toasts PT/EN misturados.
+
+## 5. Testes e observabilidade
+
+- Frontend: 0 testes. Backend: 4 arquivos (~17 testes). CI não roda `bun test`/`tsc`/`arch:check`/`biome`.
+- Lacunas críticas: fluxo de flash (risco de brick), sanitização de paths, download-manager, `login.ts`.
+- Sem logger estruturado nem arquivo de log da aplicação.
+
+## 6. Plano de migração (fases)
+
+| Fase | Escopo | Risco |
+|---|---|---|
+| **F0 — Segurança imediata** | `protobufjs→8.8`, `usb→2.19.1`, remover logs de token, confinar paths das RPCs, pin `spd-tool-bun`, CI frozen-lockfile | Baixo |
+| **F1 — Supply chain + CI** | Checksums, pin de scripts do AppImage, SHA256SUMS, separar canais, CI de qualidade, logger estruturado | Médio |
+| **F2 — Botão "Atualizar"** | `runtime/bun/features/update/`, contrato RPC, UI + logs (design aprovado) | Médio |
+| **F3 — Frontend** | Tema CSS vars, OnPush, a11y, i18n completo, componentização | Médio |
+| **F4 — Refatoração backend** | DI/ports, contrato unificado + validação, quebrar god files, timeouts de rede | Médio |
+| **F5 — Testes** | Path confinement, mappers, download-manager, rescue pipeline, contract tests | Baixo |
+| **F6 — Majors** | electrobun 1.18→2.x, Angular 22 + TS 6, archiver 8, usb 3.x | Alto |
+
+## 7. Roadmap priorizado
+
+1. Correções de segurança F0 → 2. Botão "Atualizar" → 3. CI de qualidade + testes base →
+4. Supply chain → 5. Acessibilidade + i18n → 6. Refatoração backend → 7. Majors.
+
+---
+*Detalhamento completo (tabelas arquivo:linha) registrado na sessão de auditoria de 2026-10-09.*

@@ -249,7 +249,6 @@ async function exchangeOauthCallback(parsedUrl: URL) {
     { raw: true, method: 'GET', withoutAuth: true },
   );
   const responseText = await response.text();
-  console.log('[DEBUG] callback.jhtml response:', responseText);
 
   return parseOauthCallbackResult(responseText, parsedUrl.searchParams.get('state')?.trim() || '');
 }
@@ -301,7 +300,6 @@ async function exchangeOauthCallbackViaTipsPage(callbackUrl: URL) {
     },
   });
   const callbackResponseText = await callbackResponse.text();
-  console.log('[DEBUG] tips callback response:', callbackResponseText);
   return parseOauthCallbackResult(
     callbackResponseText,
     callbackUrl.searchParams.get('state')?.trim() || '',
@@ -418,7 +416,6 @@ export async function extractAuthToken(urlOrToken: string): Promise<string> {
       if (callbackState) {
         restoreOauthContext(callbackState);
       }
-      console.log(`[DEBUG] Attempting OAuth exchange with cookies:`, Array.from(cookieJar.keys()));
 
       const initialCallbackResult = await exchangeOauthCallback(parsedUrl);
       let callbackResult = initialCallbackResult;
