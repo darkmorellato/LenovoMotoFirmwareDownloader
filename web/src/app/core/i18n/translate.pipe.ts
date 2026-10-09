@@ -9,9 +9,9 @@ import { TranslationService } from './translation.service';
 export class TranslatePipe implements PipeTransform {
   private readonly i18n = inject(TranslationService);
 
-  transform(key: string, fallback?: string): string {
+  transform(key: string, params?: Record<string, string | number> | string): string {
     // Reading the signal currentLang ensures tracking if used in reactive contexts
     this.i18n.currentLang();
-    return this.i18n.translate(key, fallback);
+    return this.i18n.translate(key, params);
   }
 }

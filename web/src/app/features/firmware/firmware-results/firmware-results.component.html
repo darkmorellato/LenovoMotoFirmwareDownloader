@@ -54,8 +54,8 @@
 <app-rescue-options-dialog
   [isOpen]="rescueDialogOpen"
   [isDark]="store.isDark()"
-  [title]="rescueDialogTitle()"
-  [description]="rescueDialogDescription()"
+  [title]="rescueDialogTitle() | translate"
+  [description]="rescueDialogDescription() | translate"
   [targetLabel]="rescueDialogVariant?.romName || ''"
   [dryRun]="rescueDialogDryRun"
   [dataReset]="rescueDialogDataReset"

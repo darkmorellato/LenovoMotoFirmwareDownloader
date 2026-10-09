@@ -22,7 +22,7 @@
           [class.border-accent]="!isDark()"
           [class.text-accent]="!isDark()"
         >
-          {{ actionLabel(activeEntry) }}
+          {{ actionLabel(activeEntry) | translate }}
         </span>
         <span
           class="rounded border px-2 py-1 font-mono text-[10px] uppercase tracking-wider"
@@ -67,7 +67,7 @@
           }
 
           <app-ui-action-button
-            [label]="cancelButtonLabel()"
+            [label]="cancelButtonLabel() | translate"
             variant="danger"
             appearance="solid"
             [isDark]="isDark()"
@@ -136,11 +136,11 @@
 
     @if (isRescueLite(activeEntry)) {
       <p class="mt-1 font-mono text-[10px]" [class.text-dark-text-dim]="isDark()" [class.text-light-text-dim]="!isDark()">
-        <span class="text-accent">exec:</span> {{ rescueExecutionLabel() }}
+        <span class="text-accent">exec:</span> {{ rescueExecutionLabel() | translate }}
         <span class="mx-1 opacity-30">|</span>
-        <span class="text-accent">wipe:</span> {{ dataResetLabel(activeEntry.dataReset) }}
+        <span class="text-accent">wipe:</span> {{ dataResetLabel(activeEntry.dataReset) | translate }}
         <span class="mx-1 opacity-30">|</span>
-        <span class="text-accent">transport:</span> {{ flashTransportLabel(activeEntry.flashTransport) }}
+        <span class="text-accent">transport:</span> {{ flashTransportLabel(activeEntry.flashTransport) | translate }}
       </p>
       @if (rescueStepText(activeEntry)) {
         <p

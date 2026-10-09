@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import { TranslatePipe } from '../../../../../core/i18n/translate.pipe';
 import {
   formatBytes as formatByteSize,
   dataResetLabel as formatDataResetLabel,
@@ -24,7 +25,12 @@ import { DownloadsFacade } from '../../../state';
 @Component({
   selector: 'app-download-history-entry-card',
   standalone: true,
-  imports: [ProgressBarComponent, UiActionButtonComponent, ServiceReportModalComponent],
+  imports: [
+    TranslatePipe,
+    ProgressBarComponent,
+    UiActionButtonComponent,
+    ServiceReportModalComponent,
+  ],
   templateUrl: './download-history-entry-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

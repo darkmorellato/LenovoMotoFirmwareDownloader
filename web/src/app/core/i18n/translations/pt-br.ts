@@ -344,4 +344,48 @@ export const ptBR: Record<string, string> = {
   'APPSTORE.CHOOSE_RESULT': 'Escolha um resultado',
   'APPSTORE.PICK_RESULT': 'Escolha um resultado da busca para baixar.',
   'APPSTORE.UNKNOWN_VERSION': 'Versão desconhecida',
+
+  // Rótulos de Downloads / Rescue (i18n residual)
+  'STATUS.IDLE': 'Ocioso',
+  'COMMON.YES': 'Sim',
+  'COMMON.NO': 'Não',
+  'DOWNLOADS.CANCELLING': 'Cancelando...',
+  'DOWNLOADS.EXEC_DRY_RUN': 'Simulação',
+  'DOWNLOADS.EXEC_LIVE': 'Flash real',
+  'DOWNLOADS.LABEL_DOWNLOAD': 'Download',
+  'DOWNLOADS.LABEL_RESCUE': 'Rescue',
+  'DOWNLOADS.COMPLETED': 'Download concluído.',
+  'DOWNLOADS.RESCUE_COMPLETED': 'Rescue concluído.',
+  'DOWNLOADS.RESCUE_DRY_COMPLETED': 'Simulação de rescue concluída.',
+  'DOWNLOADS.CANCELED': 'Download cancelado.',
+  'DOWNLOADS.RESCUE_CANCELED': 'Rescue cancelado.',
+  'DOWNLOADS.CANCELING_DOWNLOAD': 'Cancelando download...',
+  'DOWNLOADS.CANCELING_RESCUE': 'Cancelando rescue...',
+  'DOWNLOADS.ALREADY_RUNNING': 'Outra operação Rescue Lite já está em execução.',
+  'DOWNLOADS.RESCUE_ALREADY_RUNNING': 'Rescue Lite já em execução.',
+  'DOWNLOADS.SKIPPED_EXISTS_MSG': 'Download ignorado. O arquivo já existe: {name}',
+  'DOWNLOADS.SKIPPED_EXISTS_STATUS': 'Download ignorado (já existe).',
+  'DOWNLOADS.ALREADY_DOWNLOADED': 'Já baixado: {name}. Use o arquivo local em Downloads.',
+  'DOWNLOADS.RESCUE_RUNNING': 'Rescue Lite: Iniciando download do pacote de firmware...',
+  'DOWNLOADS.RESCUE_STARTED':
+    'Rescue Lite iniciado ({name}) | Reset de dados: {wipe} | Transporte: {transport}',
+  'DOWNLOADS.RESCUE_STARTED_DRY':
+    'Rescue Lite (Simulação) iniciado ({name}) | Reset de dados: {wipe} | Transporte: {transport}',
+  'DOWNLOADS.STARTING': 'Iniciando download: {name}',
+  'DOWNLOADS.STARTING_STATUS': 'Iniciando download...',
+  'DOWNLOADS.EXTRACTION_CANCELED_STATUS': 'Extração cancelada.',
+  'DOWNLOADS.EXTRACTION_CANCELED': 'Extração cancelada: {name}',
+  'DOWNLOADS.CANCELED_WITH_NAME': '{label} cancelado: {name}.',
+  'DOWNLOADS.CANCELED_WITH_NAME_TOAST': '{label} cancelado: {name}',
+  'DOWNLOADS.REMOVE_TITLE': 'Remover download?',
+  'DOWNLOADS.REMOVE_MESSAGE':
+    'Tem certeza de que deseja remover {name} do seu armazenamento local? Isso excluirá o arquivo e todos os metadados associados.',
+  'TRANSPORT.FASTBOOT': 'Fastboot',
+  'TRANSPORT.QDL': 'QDL (EDL/Firehose)',
+  'TRANSPORT.UNISOC': 'Unisoc PAC',
+  'TRANSPORT.MEDIATEK': 'MediaTek',
+  'RESCUE.DIALOG_DESC':
+    'O Rescue Lite executa comandos de rescue de firmware do pacote selecionado.',
+  'RESCUE.DIALOG_DESC_DRY':
+    'A simulação apenas analisa os comandos de rescue e imprime a sequência planejada. Nenhum flash é executado.',
 };

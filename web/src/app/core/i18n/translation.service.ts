@@ -47,19 +47,26 @@ export class TranslationService {
     this.setLanguage(this.currentLang() === 'pt-BR' ? 'en-US' : 'pt-BR');
   }
 
-  translate(key: string, fallback?: string): string {
+  translate(key: string, paramsOrFallback?: Record<string, string | number> | string): string {
     const dict = this.dictionaries[this.currentLang()];
-    const directVal = dict ? dict[key] : undefined;
-    if (typeof directVal === 'string') {
-      return directVal;
-    }
+    let value = dict ? dict[key] : undefined;
     // Fallback to English dictionary
-    if (this.currentLang() !== 'en-US') {
-      const enVal = enUS[key];
-      if (typeof enVal === 'string') {
-        return enVal;
-      }
+    if (typeof value !== 'string' && this.currentLang() !== 'en-US') {
+      value = enUS[key];
     }
-    return fallback ?? key;
+
+    const fallback = typeof paramsOrFallback === 'string' ? paramsOrFallback : undefined;
+    const params =
+      paramsOrFallback && typeof paramsOrFallback === 'object' ? paramsOrFallback : undefined;
+
+    if (typeof value !== 'string') {
+      return fallback ?? key;
+    }
+    if (!params) {
+      return value;
+    }
+    return value.replace(/\{(\w+)\}/g, (match, name: string) =>
+      Object.hasOwn(params, name) ? String(params[name]) : match,
+    );
   }
 }
