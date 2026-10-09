@@ -137,13 +137,31 @@ podman/toolchains). Foram mantidos como épicas planejadas para não quebrar a a
    no `translate()`; 309 chaves em paridade PT/EN).
 6. **Lazy loading/rotas e `@defer`** para `ng-terminal` (bundle inicial de 1 MB).
 
-### Verificação final executada
+### Verificação final executada (2026-10-09)
 - `bun run check` (arch + tsc root/web + biome) — ✅
-- `bun test` — ✅ **63 testes**
+- `bun test` — ✅ **88 testes**
 - `bun run web:build` (Angular 22) — ✅
 - Smoke do orquestrador de update contra o repositório real (credenciais, fetch,
   plano) — ✅
 - Smoke do zip com archiver 8 — ✅
+- `bun run qdl:prepare` — ✅ (integridade sha256 verificada contra o digest do
+  GitHub Release)
+- `bun run ffmpeg:prepare` — ✅
+- `bun run usb:prepare` em container (docker) — ✅ **addon nativo `usb@2.19.1`
+  compilado com o libusb corrigido**; binário glibc N-API carrega no Bun
+  (smoke `process.dlopen`); verificação SHASUMS do Node ativa (fail-closed)
+- Validação visual da UI (tema claro/escuro, i18n, modais) pelo usuário — ✅
+
+### Estado final do roadmap
+| # | Entrega | Estado |
+|---|---|---|
+| 1 | Segurança F0 | ✅ |
+| 2 | Botão "Atualizar" | ✅ |
+| 3 | CI de qualidade + testes | ✅ |
+| 4 | Supply chain | ✅ |
+| 5 | Acessibilidade + i18n + tema | ✅ (tema e i18n residual concluídos nesta etapa) |
+| 6 | Refatoração backend | ✅ (rescue stages, OAuth store port, single-flight; splits cosméticos restantes documentados) |
+| 7 | Majors | ✅ **completas ou documentadas**: Electrobun 1.18.1, Angular 22, TS 6.0, archiver 8 ✅ · `usb` 3.x ⛔ bloqueado nos forks (manter 2.19.1 — CVEs corrigidos e verificados em build nativo) · `ffmpeg` 8 ⚖️ via PATH (decisão de trust documentada) |
 
 ---
 *Detalhamento completo (tabelas arquivo:linha) registrado na sessão de auditoria de 2026-10-09.*
