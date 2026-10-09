@@ -95,4 +95,48 @@ cobertura de backend, (4) dívida técnica em arquivos god e ~1.664 bindings con
 4. Supply chain → 5. Acessibilidade + i18n → 6. Refatoração backend → 7. Majors.
 
 ---
+
+## 8. Status de execução (2026-10-09)
+
+| # | Entrega | Status | Evidência |
+|---|---|---|---|
+| 1 | Segurança F0 (CVEs, path guards, logs de token, pin deps, CI) | ✅ **Concluído** | commit `fix(security)…`; 14 testes de path-guard |
+| 2 | Botão "Atualizar" (git sync seguro + updater + UI + logs) | ✅ **Concluído** | commit `feat(update)…`; smoke real contra o origin; 18 testes |
+| 3 | CI de qualidade + testes base | ✅ **Concluído** | `lmfd-quality.yml`; 63 testes totais em 11 arquivos |
+| 4 | Supply chain (pin SHA, digest qdl, SHASUMS, canais, Dependabot) | ✅ **Concluído** | commit `ci(supply-chain)…` |
+| 5 | A11y + i18n + OnPush + confirm dialog | ✅ **Concluído** (exceto itens abaixo) | commits `fix(a11y,i18n)…` e `feat(i18n,ux)…` |
+| 6 | Refatoração backend (run.ts unificado, timeouts, logger, registry) | ✅ **Concluído** (exceto itens abaixo) | commit `refactor(runtime)…` |
+| 7 | Majors | 🟡 **Parcial** | Electrobun 1.18.1 ✅, Angular 22 + TS 6.0 ✅, archiver 8 ✅ |
+
+### Itens restantes (deliberadamente não executados sem verificação dedicada)
+
+Estes itens envolvem **mudanças visuais ou de toolchain nativo** que não podem ser
+verificadas neste ambiente (sem GUI para inspeção visual; builds nativos exigem
+podman/toolchains). Foram mantidos como épicas planejadas para não quebrar a app
+às cegas:
+
+1. **Tema por CSS variables** — converter os ~1.664 bindings `[class.*]` de tema
+   para tokens semânticos (`bg-surface`, `text-fg-dim`…). Refatoração mecânica em
+   ~35 templates; exige verificação visual tela a tela.
+2. **`usb` 3.x (Rust)** e **ffmpeg 8** — trocas de toolchain nativo (o addon USB é
+   compilado em container com libusb; o `ffmpeg-static` embute ffmpeg 6.1.1).
+   `usb` já está em 2.19.1 (CVEs do libusb corrigidos).
+3. **DI/portas em `core/features` (AuthGateway/ConfigStore)** e quebra dos god
+   files restantes (`play-store.ts`, `rescue-manager.ts`,
+   `backup-restore.workflow.ts`) — refatorações amplas que alteram comportamento
+   de fluxos críticos (flash/backup); executar em branches dedicadas com testes
+   de integração.
+4. **i18n residual** — rótulos de `download-utils.ts` (labels de cancelamento/
+   título de dialog de rescue) e ~15 strings de `workflow`/templates menores.
+5. **Lazy loading/rotas e `@defer`** para `ng-terminal` (bundle inicial de 1 MB).
+
+### Verificação final executada
+- `bun run check` (arch + tsc root/web + biome) — ✅
+- `bun test` — ✅ **63 testes**
+- `bun run web:build` (Angular 22) — ✅
+- Smoke do orquestrador de update contra o repositório real (credenciais, fetch,
+  plano) — ✅
+- Smoke do zip com archiver 8 — ✅
+
+---
 *Detalhamento completo (tabelas arquivo:linha) registrado na sessão de auditoria de 2026-10-09.*
