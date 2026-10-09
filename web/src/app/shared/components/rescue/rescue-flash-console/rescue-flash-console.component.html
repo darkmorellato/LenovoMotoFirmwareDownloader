@@ -1,17 +1,11 @@
 @if (shouldShow()) {
   <section
     #consoleSection
-    class="mt-4 rounded-xl border p-4"
-    [class.border-dark-border]="isDark()"
-    [class.bg-dark-surface]="isDark()"
-    [class.border-light-border]="!isDark()"
-    [class.bg-light-surface]="!isDark()"
+    class="mt-4 rounded-xl border p-4 border-base bg-surface"
   >
     <div class="mb-3 flex items-center justify-between gap-2">
       <p
-        class="text-sm font-semibold"
-        [class.text-dark-text-bright]="isDark()"
-        [class.text-light-text-bright]="!isDark()"
+        class="text-sm font-semibold text-fg-strong"
       >
         {{ title() }}
       </p>
@@ -50,9 +44,7 @@
       </div>
     </div>
     <div
-      class="h-56 overflow-hidden rounded-lg border"
-      [class.border-dark-border]="isDark()"
-      [class.border-light-border]="!isDark()"
+      class="h-56 overflow-hidden rounded-lg border border-base"
       (wheel)="onConsoleWheel($event)"
     >
       <ng-terminal #flashTerminal [xtermOptions]="terminalOptions()" />

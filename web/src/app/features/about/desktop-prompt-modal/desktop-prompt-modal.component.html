@@ -3,19 +3,13 @@
     <div class="absolute inset-0 bg-black/60 transition-opacity" (click)="dismiss()"></div>
 
     <div
-      class="relative w-full max-w-md overflow-hidden rounded-2xl border p-6 text-left align-middle shadow-xl"
+      class="relative w-full max-w-md overflow-hidden rounded-2xl border p-6 text-left align-middle shadow-xl border-base bg-surface"
       role="dialog"
       aria-modal="true"
       [attr.aria-label]="'PROMPT.TITLE' | translate"
-      [class.border-dark-border]="store.isDark()"
-      [class.bg-dark-surface]="store.isDark()"
-      [class.border-light-border]="!store.isDark()"
-      [class.bg-light-surface]="!store.isDark()"
     >
       <h3
-        class="text-xl font-bold leading-6"
-        [class.text-dark-text-bright]="store.isDark()"
-        [class.text-light-text-bright]="!store.isDark()"
+        class="text-xl font-bold leading-6 text-fg-strong"
       >
         @if (isWindowsPrompt()) {
           {{ 'PROMPT.WINDOWS_TITLE' | translate }}
@@ -27,9 +21,7 @@
       <div class="mt-4">
         @if (isWindowsPrompt()) {
           <p
-            class="text-sm"
-            [class.text-dark-text]="store.isDark()"
-            [class.text-light-text]="!store.isDark()"
+            class="text-sm text-fg"
           >
             {{ 'PROMPT.WINDOWS_DESC_1' | translate }}<span class="font-mono">softwarefix://</span
             >{{ 'PROMPT.WINDOWS_DESC_2' | translate }}
@@ -39,9 +31,7 @@
           </p>
         } @else if (store.desktopPromptReason() === 'wrong_wmclass') {
           <p
-            class="text-sm"
-            [class.text-dark-text]="store.isDark()"
-            [class.text-light-text]="!store.isDark()"
+            class="text-sm text-fg"
           >
             {{ 'PROMPT.WMCLASS_DESC_1' | translate }}
             <br />
@@ -50,9 +40,7 @@
           </p>
         } @else {
           <p
-            class="text-sm"
-            [class.text-dark-text]="store.isDark()"
-            [class.text-light-text]="!store.isDark()"
+            class="text-sm text-fg"
           >
             {{ 'PROMPT.SHORTCUT_DESC_1' | translate }}
             <br />
@@ -64,17 +52,13 @@
 
       <div class="mt-8 flex items-center justify-between">
         <label
-          class="flex cursor-pointer select-none items-center gap-2 text-sm"
-          [class.text-dark-text-dim]="store.isDark()"
-          [class.text-light-text-dim]="!store.isDark()"
+          class="flex cursor-pointer select-none items-center gap-2 text-sm text-fg-dim"
         >
           <input
             type="checkbox"
-            class="h-4 w-4 rounded border-2 accent-accent focus:ring-accent"
-            [class.border-dark-border]="store.isDark()"
-            [class.bg-dark-elevated]="store.isDark()"
-            [class.border-light-border]="!store.isDark()"
-            [class.bg-light-surface]="!store.isDark()"
+            class="h-4 w-4 rounded border-2 accent-accent focus:ring-accent border-base"
+            [class.bg-elevated]="store.isDark()"
+            [class.bg-surface]="!store.isDark()"
             [checked]="dontAskAgain()"
             (change)="toggleDontAsk($event)"
           />
@@ -84,13 +68,7 @@
         <div class="flex items-center gap-3">
           <button
             type="button"
-            class="rounded-lg border px-4 py-2 text-sm font-medium transition-colors duration-200"
-            [class.border-dark-border]="store.isDark()"
-            [class.text-dark-text]="store.isDark()"
-            [class.hover:bg-dark-elevated]="store.isDark()"
-            [class.border-light-border]="!store.isDark()"
-            [class.text-light-text]="!store.isDark()"
-            [class.hover:bg-light-bg]="!store.isDark()"
+            class="rounded-lg border px-4 py-2 text-sm font-medium transition-colors duration-200 border-base text-fg hover:bg-hover-soft"
             (click)="dismiss()"
             [disabled]="isProcessing()"
           >

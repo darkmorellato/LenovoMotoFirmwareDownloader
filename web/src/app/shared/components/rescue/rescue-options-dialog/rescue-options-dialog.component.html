@@ -4,33 +4,25 @@
     (click)="onBackdropClick()"
   >
     <div
-      class="relative w-full max-w-xl rounded-2xl border p-5 shadow-xl"
+      class="relative w-full max-w-xl rounded-2xl border p-5 shadow-xl border-base bg-surface"
       role="dialog"
       aria-modal="true"
       [attr.aria-label]="title()"
-      [class.border-dark-border]="isDark()"
-      [class.bg-dark-surface]="isDark()"
-      [class.border-light-border]="!isDark()"
-      [class.bg-light-surface]="!isDark()"
       (click)="onDialogClick($event)"
     >
       <h4
-        class="text-base font-semibold"
-        [class.text-dark-text-bright]="isDark()"
-        [class.text-light-text-bright]="!isDark()"
+        class="text-base font-semibold text-fg-strong"
       >
         {{ dryRun() ? ('RESCUE.DRY_RUN_TITLE' | translate) : ('RESCUE.TITLE' | translate) }}
       </h4>
 
-      <p class="mt-2 text-sm" [class.text-dark-text]="isDark()" [class.text-light-text]="!isDark()">
+      <p class="mt-2 text-sm text-fg"  >
         {{ description() }}
       </p>
 
       @if (targetLabel()) {
         <p
-          class="mt-2 break-all font-mono text-xs"
-          [class.text-dark-text-dim]="isDark()"
-          [class.text-light-text-dim]="!isDark()"
+          class="mt-2 break-all font-mono text-xs text-fg-dim"
         >
           {{ targetLabel() }}
         </p>
@@ -38,9 +30,7 @@
 
       <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-accent">{{ 'RESCUE.TRANSPORT' | translate }}</p>
       <p
-        class="mt-1 text-xs"
-        [class.text-dark-text-dim]="isDark()"
-        [class.text-light-text-dim]="!isDark()"
+        class="mt-1 text-xs text-fg-dim"
       >
         {{ 'RESCUE.TRANSPORT_DESC' | translate }}
       </p>
@@ -74,11 +64,9 @@
 
       @if (flashTransport() === 'fastboot') {
         <div
-          class="mt-4 rounded-xl border p-3.5 transition-colors"
-          [class.border-dark-border]="isDark()"
-          [class.bg-dark-elevated]="isDark()"
-          [class.border-light-border]="!isDark()"
-          [class.bg-light-surface]="!isDark()"
+          class="mt-4 rounded-xl border p-3.5 transition-colors border-base"
+          [class.bg-elevated]="isDark()"
+          [class.bg-surface]="!isDark()"
         >
           <div class="flex items-center justify-between">
             <span class="text-xs font-semibold uppercase tracking-wide text-accent">
@@ -99,19 +87,15 @@
             @if (health.connected) {
               <div class="mt-2.5 grid grid-cols-2 gap-2 text-xs">
                 <div
-                  class="rounded-lg border p-2"
-                  [class.border-dark-border]="isDark()"
-                  [class.bg-dark-surface]="isDark()"
-                  [class.border-light-border]="!isDark()"
-                  [class.bg-light-elevated]="!isDark()"
+                  class="rounded-lg border p-2 border-base"
+                  [class.bg-surface]="isDark()"
+                  [class.bg-elevated]="!isDark()"
                 >
                   <span class="block text-[11px] font-medium opacity-75">
                     {{ 'PREFLIGHT.CONNECTED_DEVICE' | translate }}
                   </span>
                   <span
-                    class="font-mono font-semibold"
-                    [class.text-dark-text-bright]="isDark()"
-                    [class.text-light-text-bright]="!isDark()"
+                    class="font-mono font-semibold text-fg-strong"
                   >
                     {{ health.product || health.serialNumber || 'Fastboot' }}
                   </span>
@@ -121,11 +105,9 @@
                 </div>
 
                 <div
-                  class="rounded-lg border p-2"
-                  [class.border-dark-border]="isDark()"
-                  [class.bg-dark-surface]="isDark()"
-                  [class.border-light-border]="!isDark()"
-                  [class.bg-light-elevated]="!isDark()"
+                  class="rounded-lg border p-2 border-base"
+                  [class.bg-surface]="isDark()"
+                  [class.bg-elevated]="!isDark()"
                 >
                   <span class="block text-[11px] font-medium opacity-75">
                     {{ 'PREFLIGHT.BATTERY' | translate }}
@@ -164,9 +146,7 @@
               }
             } @else {
               <p
-                class="mt-2 text-xs"
-                [class.text-dark-text-dim]="isDark()"
-                [class.text-light-text-dim]="!isDark()"
+                class="mt-2 text-xs text-fg-dim"
               >
                 ℹ️ {{ 'PREFLIGHT.NOT_CONNECTED' | translate }}
               </p>
@@ -177,9 +157,7 @@
 
       <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-accent">{{ 'RESCUE.DATA_RESET' | translate }}</p>
       <p
-        class="mt-1 text-xs"
-        [class.text-dark-text-dim]="isDark()"
-        [class.text-light-text-dim]="!isDark()"
+        class="mt-1 text-xs text-fg-dim"
       >
         @if (dryRun()) {
           {{ 'RESCUE.DATA_RESET_DESC_DRY' | translate }}
@@ -229,20 +207,14 @@
           </div>
 
           <label
-            class="block text-xs uppercase tracking-wide"
-            [class.text-dark-text-dim]="isDark()"
-            [class.text-light-text-dim]="!isDark()"
+            class="block text-xs uppercase tracking-wide text-fg-dim"
           >
             {{ 'RESCUE.BOARD_SERIAL' | translate }}
           </label>
           <input
-            class="w-full rounded-lg border px-3 py-2 font-mono text-sm transition-colors duration-200"
-            [class.border-dark-border]="isDark()"
-            [class.bg-dark-elevated]="isDark()"
-            [class.text-dark-text]="isDark()"
-            [class.border-light-border]="!isDark()"
-            [class.bg-light-surface]="!isDark()"
-            [class.text-light-text]="!isDark()"
+            class="w-full rounded-lg border px-3 py-2 font-mono text-sm transition-colors duration-200 border-base text-fg"
+            [class.bg-elevated]="isDark()"
+            [class.bg-surface]="!isDark()"
             type="text"
             [placeholder]="'RESCUE.OPTIONAL' | translate"
             [value]="qdlSerial()"

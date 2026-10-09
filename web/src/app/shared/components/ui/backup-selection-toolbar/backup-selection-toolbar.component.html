@@ -37,9 +37,7 @@
       (clicked)="prevPage.emit()"
     />
     <p
-      class="text-xs font-semibold"
-      [class.text-light-text]="!isDark()"
-      [class.text-dark-text]="isDark()"
+      class="text-xs font-semibold text-fg"
     >
       {{ 'TOOLBAR.PAGE' | translate }} {{ pageLabel() }}
     </p>

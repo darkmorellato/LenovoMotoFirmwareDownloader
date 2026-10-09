@@ -4,24 +4,18 @@
     (click)="onBackdropClick()"
   >
     <div
-      class="relative w-full max-w-3xl rounded-2xl border p-5 shadow-xl"
+      class="relative w-full max-w-3xl rounded-2xl border p-5 shadow-xl border-base bg-surface"
       role="dialog"
       aria-modal="true"
       [attr.aria-label]="'RESCUE.DRY_RUN_TITLE' | translate"
-      [class.border-dark-border]="isDark()"
-      [class.bg-dark-surface]="isDark()"
-      [class.border-light-border]="!isDark()"
-      [class.bg-light-surface]="!isDark()"
       (click)="onDialogClick($event)"
     >
       <h4
-        class="text-base font-semibold"
-        [class.text-dark-text-bright]="isDark()"
-        [class.text-light-text-bright]="!isDark()"
+        class="text-base font-semibold text-fg-strong"
       >
         {{ 'RESCUE.DRY_RUN_TITLE' | translate }}
       </h4>
-      <p class="mt-2 font-mono text-xs" [class.text-dark-text]="isDark()" [class.text-light-text]="!isDark()">
+      <p class="mt-2 font-mono text-xs text-fg"  >
         <span class="text-accent">rom:</span> {{ activePlan.romName }}
         <span class="mx-1 opacity-30">|</span>
         <span class="text-accent">source:</span> {{ activePlan.commandSource }}
@@ -41,22 +35,16 @@
 
       @if (activePlan.localFilePath) {
         <p
-          class="mt-1 break-all font-mono text-xs"
-          [class.text-dark-text-dim]="isDark()"
-          [class.text-light-text-dim]="!isDark()"
+          class="mt-1 break-all font-mono text-xs text-fg-dim"
         >
           {{ activePlan.localFilePath }}
         </p>
       }
 
       <div
-        class="mt-4 max-h-[55vh] overflow-auto rounded-lg border p-3 font-mono text-xs"
-        [class.border-dark-border]="isDark()"
-        [class.bg-dark-elevated]="isDark()"
-        [class.border-light-border]="!isDark()"
-        [class.bg-light-bg]="!isDark()"
-        [class.text-dark-text]="isDark()"
-        [class.text-light-text]="!isDark()"
+        class="mt-4 max-h-[55vh] overflow-auto rounded-lg border p-3 font-mono text-xs border-base text-fg"
+        [class.bg-elevated]="isDark()"
+        [class.bg-canvas]="!isDark()"
       >
         @for (command of activePlan.commands; track $index) {
           <p class="break-all">

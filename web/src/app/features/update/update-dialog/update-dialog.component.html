@@ -4,30 +4,22 @@
     (click)="onBackdropClick()"
   >
     <div
-      class="relative flex max-h-[90vh] w-full max-w-2xl flex-col rounded-2xl border p-5 shadow-xl"
+      class="relative flex max-h-[90vh] w-full max-w-2xl flex-col rounded-2xl border p-5 shadow-xl border-base bg-surface"
       role="dialog"
       aria-modal="true"
       [attr.aria-label]="'UPDATE.TITLE' | translate"
-      [class.border-dark-border]="store.isDark()"
-      [class.bg-dark-surface]="store.isDark()"
-      [class.border-light-border]="!store.isDark()"
-      [class.bg-light-surface]="!store.isDark()"
       (click)="onDialogClick($event)"
     >
       <!-- Header -->
       <div class="flex items-start justify-between gap-4">
         <div>
           <h4
-            class="text-base font-semibold"
-            [class.text-dark-text-bright]="store.isDark()"
-            [class.text-light-text-bright]="!store.isDark()"
+            class="text-base font-semibold text-fg-strong"
           >
             {{ 'UPDATE.TITLE' | translate }}
           </h4>
           <p
-            class="mt-1 text-xs"
-            [class.text-dark-text-dim]="store.isDark()"
-            [class.text-light-text-dim]="!store.isDark()"
+            class="mt-1 text-xs text-fg-dim"
           >
             @if (update.preflight()?.mode === 'source') {
             {{ 'UPDATE.MODE_SOURCE' | translate }}
@@ -66,7 +58,7 @@
           class="rounded-lg border-l-4 p-3 text-sm"
           [class.border-danger]="true"
           [class.bg-danger-light]="!store.isDark()"
-          [class.bg-dark-elevated]="store.isDark()"
+          [class.bg-elevated]="store.isDark()"
           [class.text-danger]="true"
         >
           <p class="font-semibold">{{ update.errorMessage() }}</p>
@@ -82,7 +74,7 @@
           <span
             class="rounded-full px-2 py-0.5 font-semibold uppercase tracking-wide"
             [class.bg-success-light]="preflight.credentialStatus === 'ok' && !store.isDark()"
-            [class.bg-dark-elevated]="store.isDark()"
+            [class.bg-elevated]="store.isDark()"
             [class.text-success]="preflight.credentialStatus === 'ok'"
             [class.text-warning]="preflight.credentialStatus !== 'ok'"
           >
@@ -90,9 +82,7 @@
           </span>
           @if (preflight.currentCommit) {
           <span
-            class="font-mono"
-            [class.text-dark-text-dim]="store.isDark()"
-            [class.text-light-text-dim]="!store.isDark()"
+            class="font-mono text-fg-dim"
           >
             {{ preflight.currentBranch }} @ {{ preflight.currentCommit.slice(0, 10) }}
           </span>
@@ -109,9 +99,7 @@
           <ul class="mt-2 space-y-1">
             @for (commit of preflight.incomingCommits.slice(0, 8); track commit.sha) {
             <li
-              class="flex items-start gap-2 text-xs"
-              [class.text-dark-text]="store.isDark()"
-              [class.text-light-text]="!store.isDark()"
+              class="flex items-start gap-2 text-xs text-fg"
             >
               <span class="font-mono opacity-70">{{ commit.sha }}</span>
               <span>{{ commit.summary }}</span>
@@ -127,9 +115,7 @@
             {{ 'UPDATE.DIRTY_FILES' | translate }} ({{ preflight.dirtyFiles.length }})
           </p>
           <ul
-            class="mt-2 space-y-1 font-mono text-[11px]"
-            [class.text-dark-text-dim]="store.isDark()"
-            [class.text-light-text-dim]="!store.isDark()"
+            class="mt-2 space-y-1 font-mono text-[11px] text-fg-dim"
           >
             @for (file of preflight.dirtyFiles.slice(0, 5); track file) {
             <li>{{ file }}</li>
@@ -156,8 +142,8 @@
           </div>
           <div
             class="mt-1 h-2 w-full overflow-hidden rounded-full"
-            [class.bg-dark-elevated]="store.isDark()"
-            [class.bg-light-border]="!store.isDark()"
+            [class.bg-elevated]="store.isDark()"
+            [class.bg-base]="!store.isDark()"
           >
             <div
               class="h-full rounded-full bg-accent transition-all duration-300"
@@ -176,11 +162,7 @@
         <!-- Console -->
         @if (update.consoleEntries().length > 0) {
         <div
-          class="max-h-48 overflow-y-auto rounded-lg border p-2 font-mono text-[11px] leading-relaxed"
-          [class.border-dark-border]="store.isDark()"
-          [class.bg-dark-bg]="store.isDark()"
-          [class.border-light-border]="!store.isDark()"
-          [class.bg-light-bg]="!store.isDark()"
+          class="max-h-48 overflow-y-auto rounded-lg border p-2 font-mono text-[11px] leading-relaxed border-base bg-canvas"
           aria-live="polite"
         >
           @for (entry of update.consoleEntries(); track entry.id) {
@@ -188,8 +170,8 @@
             [class.text-success]="entry.tone === 'success'"
             [class.text-danger]="entry.tone === 'error'"
             [class.text-warning]="entry.tone === 'warning'"
-            [class.text-dark-text-dim]="entry.tone === 'info' && store.isDark()"
-            [class.text-light-text-dim]="entry.tone === 'info' && !store.isDark()"
+            [class.text-fg-dim]="entry.tone === 'info' && store.isDark()"
+            [class.text-fg-dim]="entry.tone === 'info' && !store.isDark()"
           >
             {{ entry.text }}
           </p>
@@ -204,11 +186,7 @@
             {{ 'UPDATE.LOG_TITLE' | translate }}
           </p>
           <pre
-            class="mt-2 max-h-48 overflow-y-auto whitespace-pre-wrap rounded-lg border p-2 font-mono text-[10px]"
-            [class.border-dark-border]="store.isDark()"
-            [class.bg-dark-bg]="store.isDark()"
-            [class.border-light-border]="!store.isDark()"
-            [class.bg-light-bg]="!store.isDark()"
+            class="mt-2 max-h-48 overflow-y-auto whitespace-pre-wrap rounded-lg border p-2 font-mono text-[10px] border-base bg-canvas"
             >{{ update.logContent() }}</pre
           >
         </div>

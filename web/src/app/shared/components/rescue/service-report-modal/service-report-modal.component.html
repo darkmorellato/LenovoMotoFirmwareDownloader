@@ -4,45 +4,33 @@
     (click)="onBackdropClick()"
   >
     <div
-      class="relative w-full max-w-xl rounded-2xl border p-6 shadow-2xl transition-all print:border-none print:shadow-none print:p-0"
+      class="relative w-full max-w-xl rounded-2xl border p-6 shadow-2xl transition-all print:border-none print:shadow-none print:p-0 border-base bg-surface"
       role="dialog"
       aria-modal="true"
       [attr.aria-label]="'REPORT.TITLE' | translate"
-      [class.border-dark-border]="isDark()"
-      [class.bg-dark-surface]="isDark()"
-      [class.border-light-border]="!isDark()"
-      [class.bg-light-surface]="!isDark()"
       (click)="onDialogClick($event)"
     >
       <!-- Printable Receipt Card -->
       <div id="service-report-printable" class="space-y-4">
         <!-- Receipt Header -->
         <div
-          class="border-b pb-4 text-center"
-          [class.border-dark-border]="isDark()"
-          [class.border-light-border]="!isDark()"
+          class="border-b pb-4 text-center border-base"
         >
           <div class="mb-1 inline-flex items-center justify-center gap-2">
             <span class="text-xl">🛠️</span>
             <h3
-              class="text-base font-bold uppercase tracking-wider"
-              [class.text-dark-text-bright]="isDark()"
-              [class.text-light-text-bright]="!isDark()"
+              class="text-base font-bold uppercase tracking-wider text-fg-strong"
             >
               {{ 'REPORT.TITLE' | translate }}
             </h3>
           </div>
           <p
-            class="text-xs"
-            [class.text-dark-text-dim]="isDark()"
-            [class.text-light-text-dim]="!isDark()"
+            class="text-xs text-fg-dim"
           >
             {{ 'REPORT.SUBTITLE' | translate }}
           </p>
           <p
-            class="mt-1 font-mono text-[11px] opacity-70"
-            [class.text-dark-text-dim]="isDark()"
-            [class.text-light-text-dim]="!isDark()"
+            class="mt-1 font-mono text-[11px] opacity-70 text-fg-dim"
           >
             {{ 'REPORT.DATE' | translate }}: {{ data.date }}
           </p>
@@ -51,17 +39,13 @@
         <!-- Receipt Content Table -->
         <div class="space-y-2.5 text-xs">
           <div
-            class="flex items-center justify-between rounded-lg border p-2.5"
-            [class.border-dark-border]="isDark()"
-            [class.bg-dark-elevated]="isDark()"
-            [class.border-light-border]="!isDark()"
-            [class.bg-light-muted]="!isDark()"
+            class="flex items-center justify-between rounded-lg border p-2.5 border-base"
+            [class.bg-elevated]="isDark()"
+            [class.bg-muted]="!isDark()"
           >
             <span class="opacity-70">{{ 'REPORT.DEVICE' | translate }}:</span>
             <span
-              class="font-mono font-semibold"
-              [class.text-dark-text-bright]="isDark()"
-              [class.text-light-text-bright]="!isDark()"
+              class="font-mono font-semibold text-fg-strong"
             >
               {{ data.deviceModel || 'Motorola Device' }}
             </span>
@@ -69,11 +53,9 @@
 
           @if (data.serialNumber) {
             <div
-              class="flex items-center justify-between rounded-lg border p-2.5"
-              [class.border-dark-border]="isDark()"
-              [class.bg-dark-elevated]="isDark()"
-              [class.border-light-border]="!isDark()"
-              [class.bg-light-muted]="!isDark()"
+              class="flex items-center justify-between rounded-lg border p-2.5 border-base"
+              [class.bg-elevated]="isDark()"
+              [class.bg-muted]="!isDark()"
             >
               <span class="opacity-70">{{ 'REPORT.SERIAL' | translate }}:</span>
               <span class="font-mono font-semibold text-accent">{{ data.serialNumber }}</span>
@@ -81,17 +63,13 @@
           }
 
           <div
-            class="flex flex-col gap-1 rounded-lg border p-2.5"
-            [class.border-dark-border]="isDark()"
-            [class.bg-dark-elevated]="isDark()"
-            [class.border-light-border]="!isDark()"
-            [class.bg-light-muted]="!isDark()"
+            class="flex flex-col gap-1 rounded-lg border p-2.5 border-base"
+            [class.bg-elevated]="isDark()"
+            [class.bg-muted]="!isDark()"
           >
             <span class="opacity-70">{{ 'REPORT.FIRMWARE' | translate }}:</span>
             <span
-              class="break-all font-mono text-[11px] font-semibold"
-              [class.text-dark-text-bright]="isDark()"
-              [class.text-light-text-bright]="!isDark()"
+              class="break-all font-mono text-[11px] font-semibold text-fg-strong"
             >
               {{ data.firmwareVersion || 'Oficial Lenovo / Motorola ROM' }}
             </span>
@@ -99,22 +77,18 @@
 
           <div class="grid grid-cols-2 gap-2">
             <div
-              class="rounded-lg border p-2.5"
-              [class.border-dark-border]="isDark()"
-              [class.bg-dark-elevated]="isDark()"
-              [class.border-light-border]="!isDark()"
-              [class.bg-light-muted]="!isDark()"
+              class="rounded-lg border p-2.5 border-base"
+              [class.bg-elevated]="isDark()"
+              [class.bg-muted]="!isDark()"
             >
               <span class="mb-0.5 block opacity-70">Protocolo:</span>
               <span class="font-mono font-semibold uppercase">{{ data.transport || 'Fastboot' }}</span>
             </div>
 
             <div
-              class="rounded-lg border p-2.5"
-              [class.border-dark-border]="isDark()"
-              [class.bg-dark-elevated]="isDark()"
-              [class.border-light-border]="!isDark()"
-              [class.bg-light-muted]="!isDark()"
+              class="rounded-lg border p-2.5 border-base"
+              [class.bg-elevated]="isDark()"
+              [class.bg-muted]="!isDark()"
             >
               <span class="mb-0.5 block opacity-70">Partição de Dados:</span>
               <span
@@ -146,9 +120,7 @@
 
           <!-- Signature lines for printable paper -->
           <div
-            class="mt-6 hidden border-t border-dashed pt-4 print:block"
-            [class.border-dark-border]="isDark()"
-            [class.border-light-border]="!isDark()"
+            class="mt-6 hidden border-t border-dashed pt-4 print:block border-base"
           >
             <div class="mt-6 grid grid-cols-2 gap-8 text-center text-[11px]">
               <div>
@@ -166,22 +138,14 @@
 
       <!-- Dialog Action Buttons (Hidden when printing) -->
       <div
-        class="mt-6 flex flex-wrap items-center justify-between gap-2 border-t pt-4 print:hidden"
-        [class.border-dark-border]="isDark()"
-        [class.border-light-border]="!isDark()"
+        class="mt-6 flex flex-wrap items-center justify-between gap-2 border-t pt-4 print:hidden border-base"
       >
         <div class="flex items-center gap-2">
           <button
             type="button"
-            class="flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors"
-            [class.border-dark-border]="isDark()"
-            [class.bg-dark-elevated]="isDark()"
-            [class.text-dark-text]="isDark()"
-            [class.hover:bg-dark-surface]="isDark()"
-            [class.border-light-border]="!isDark()"
-            [class.bg-light-muted]="!isDark()"
-            [class.text-light-text]="!isDark()"
-            [class.hover:bg-light-surface]="!isDark()"
+            class="flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors border-base text-fg hover:bg-hover-surface"
+            [class.bg-elevated]="isDark()"
+            [class.bg-muted]="!isDark()"
             (click)="copyReportText()"
           >
             <span>📋</span>
