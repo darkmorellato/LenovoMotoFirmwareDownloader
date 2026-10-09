@@ -2,12 +2,12 @@ import { constants as cryptoConstants, publicEncrypt } from 'node:crypto';
 import { getLogger } from '../../common/logger.ts';
 import type { RequestOptions } from '../../common/request-options.ts';
 import { fetchWithTimeout } from '../http.ts';
-import { API_URL, BASE_URL, USER_AGENT } from './constants.ts';
+import { API_URL, BASE_URL, LMSA_CLIENT_VERSION, USER_AGENT } from './constants.ts';
 import { cookieJar, session } from './state.ts';
 
 const log = getLogger('lmsa-api');
 
-const clientVersion = '7.5.5.19';
+const clientVersion = LMSA_CLIENT_VERSION;
 const requestLanguage = 'en-US';
 const requestWindowsInfo = 'Microsoft Windows 10 Pro, 64-bit';
 const PUBLIC_KEY_PATH = '/common/rsa.jhtml';
